@@ -7,4 +7,4 @@ export default function FeatureCard({ title, icon }) {
             <h3 className="font-semibold text-lg">{title}</h3>
         </div>
     );
-}
+};
