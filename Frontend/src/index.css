@@ -8,3 +8,35 @@
     box-sizing: border-box;
     scroll-behavior: smooth;
 }
+
+:root {
+    --color-primary: #4F46E5;
+    --color-secondary: #06B6D4;
+    --color-accent: #10B981;
+
+    --color-violet: #7C3AED;
+    --color-orange: #F97316;
+
+    --color-dark: #0F172A;
+    --color-light: #F1F5F9;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #CBD5E1;
+
+    --gradient-main: linear-gradient(90deg,
+            #4F46E5,
+            #06B6D4,
+            #10B981);
+
+
+
+    --gradient-hero: linear-gradient(135deg,
+            #0F172A 10%,
+            #1E1B4B 50%,
+            #4F46E5 110%);
+
+    --gradient-hero-vibrant: linear-gradient(135deg,
+            rgba(79, 70, 229, 0.1) 0%,
+            rgba(124, 58, 237, 0.05) 50%,
+            rgba(249, 115, 22, 0.05) 100%);
+
+}

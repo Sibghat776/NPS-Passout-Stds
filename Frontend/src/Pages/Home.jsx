@@ -1,6 +1,9 @@
 import React from "react";
 import Hero from "../Components/Hero.jsx";
-import FeatureCard from "../Components/FeatureCard.jsx";
+import Navbar from "../Components/Navbar.jsx";
+import About from "../Components/About.jsx";
+import Contact from "../Components/Contact.jsx";
+import Footer from "../Components/Footer.jsx";
 
 const features = [
     { title: "Update Your Profile", icon: "📄" },
@@ -9,15 +12,14 @@ const features = [
     { title: "Explore Opportunities", icon: "🚀" },
 ];
 
-export default function Landing() {
+export default function Home() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-50 via-slate-100 to-slate-50">
+            <Navbar />
             <Hero />
-            <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-                {features.map((f, i) => (
-                    <FeatureCard key={i} title={f.title} icon={f.icon} />
-                ))}
-            </div>
+            <About/>
+            <Contact/>
+            <Footer/>
         </div>
     );
 }

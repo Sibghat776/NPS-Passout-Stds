@@ -1,16 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Landing from "./Pages/Landing.jsx";
-import Registration from "./Pages/Registration.jsx";
-import Dashboard from "./Pages/Dashboard.jsx";
 import React from "react";
 import "./index.css"
+import Home from "./Pages/Home.jsx";
+import About from "./Components/About.jsx";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/register" element={<Registration />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
     </Routes>
   );
 }
