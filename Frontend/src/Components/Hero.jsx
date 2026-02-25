@@ -3,7 +3,7 @@ import { ArrowRight, GraduationCap, Globe, Zap, Sparkles } from 'lucide-react';
 
 const Hero = () => {
     return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-hero-gradient pt-20">
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-hero-gradient pb-5 pt-24">
 
             {/* Dynamic Background Overlays for extra depth */}
             <div className="absolute inset-0 bg-darkBase/20 backdrop-blur-[2px]"></div>

@@ -47,7 +47,7 @@ const About = () => {
         <section className="relative w-full bg-[#FCFDFF] py-32 px-6 overflow-hidden">
 
             {/* 🔹 Soft Abstract Background Colors */}
-            <div className="absolute top-0 -left-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px]"></div>
+            <div id="about" className="absolute top-0 -left-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px]"></div>
             <div className="absolute bottom-0 -right-[10%] w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[120px]"></div>
 
             <div className="max-w-7xl mx-auto relative z-10">

@@ -11,6 +11,7 @@ import {
     ChevronRight
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -28,11 +29,13 @@ const Navbar = () => {
 
     const navLinks = [
         { name: "Home", path: "/", icon: <Home size={18} />, color: "hover:text-secondary" },
-        { name: "About", path: "/about", icon: <Info size={18} />, color: "hover:text-accent" },
+        { name: "About", path: "#about", icon: <Info size={18} />, color: "hover:text-accent" },
         { name: "Community", path: "/community", icon: <Users size={18} />, color: "hover:text-violet" },
-        { name: "Contact", path: "/contact", icon: <Phone size={18} />, color: "hover:text-orange" },
+        { name: "Contact", path: "#contact", icon: <Phone size={18} />, color: "hover:text-orange" },
     ];
-
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     return (
         <header
             className={`w-full fixed top-0 left-0 z-50 transition-all duration-500 ${scrolled
@@ -40,17 +43,17 @@ const Navbar = () => {
                 : "bg-transparent py-5"
                 }`}
         >
-            <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+            <div onClick={scrollToTop} className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
                 {/* 🔹 LOGO SECTION */}
-                <Link to="/" className="flex items-center gap-4 group">
+                <Link to="/" className="flex items-center gap-4 group scroll-smooth">
                     <div className="relative">
                         <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
                         <div className="relative bg-darkBase p-1.5 rounded-2xl border border-white/10 shadow-xl">
                             <img src={logo} alt="Logo" className="h-10 w-auto object-contain" />
                         </div>
                     </div>
-                    <div className="hidden sm:block">
+                    <div className="">
                         <h1 className="text-xl font-black text-white tracking-tighter leading-none">
                             NPS <span className="text-secondary">ALUMNI</span>
                         </h1>
@@ -63,20 +66,22 @@ const Navbar = () => {
                 {/* 🔹 DESKTOP NAVIGATION */}
                 <nav className="hidden md:flex items-center bg-white/5 border border-white/10 px-2 py-1.5 rounded-2xl backdrop-blur-md">
                     {navLinks.map((link) => (
-                        <Link
+                        <HashLink
                             key={link.name}
+                            smooth
                             to={link.path}
-                            className={`relative px-5 py-2 flex items-center gap-2 text-sm font-semibold transition-all duration-300 rounded-xl group ${location.pathname === link.path
+                            className={`relative px-5 py-2 flex items-center gap-2 text-sm font-semibold transition-all duration-300 rounded-xl group ${location.hash === link.path
                                 ? "text-white bg-white/10 shadow-inner"
                                 : "text-textSecondary hover:bg-white/5"
                                 } ${link.color}`}
                         >
                             {link.icon}
                             {link.name}
-                            {location.pathname === link.path && (
+
+                            {location.hash === link.path && (
                                 <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-accent rounded-full"></span>
                             )}
-                        </Link>
+                        </HashLink>
                     ))}
                 </nav>
 
@@ -135,4 +140,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
