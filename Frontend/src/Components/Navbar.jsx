@@ -36,13 +36,20 @@ const Navbar = () => {
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    const pathname = location.pathname;
+    const isHomePage = pathname === "/";
+
+
     return (
+
         <header
-            className={`w-full fixed top-0 left-0 z-50 transition-all duration-500 ${scrolled
-                ? "bg-[rgba(29,20,73,0.5)] backdrop-blur-xl shadow-2xl py-3 border-b border-white/5"
+            className={`w-full fixed top-0 left-0 z-50 transition-all duration-500 ${scrolled || !isHomePage
+                ? "bg-[rgba(29,20,73,0.9)] backdrop-blur-xl shadow-2xl py-3 border-b border-white/5"
                 : "bg-transparent py-5"
                 }`}
         >
+
             <div onClick={scrollToTop} className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
                 {/* 🔹 LOGO SECTION */}
@@ -88,9 +95,9 @@ const Navbar = () => {
                 {/* 🔹 ACTION BUTTON */}
                 <div className="hidden md:block">
                     <button className="relative group overflow-hidden bg-main-gradient px-7 py-2.5 rounded-xl font-bold text-white shadow-[0_10px_20px_-5px_rgba(79,70,229,0.4)] hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                        <span className="relative z-10 flex items-center gap-2">
+                        <Link to="/form" className="relative z-10 flex items-center gap-2">
                             Join Network <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                        </span>
+                        </Link>
                         <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                     </button>
                 </div>
@@ -130,9 +137,9 @@ const Navbar = () => {
                             <ChevronRight size={16} className="text-textSecondary" />
                         </Link>
                     ))}
-                    <button className="w-full bg-main-gradient py-4 rounded-2xl font-bold text-white flex justify-center items-center gap-2 shadow-lg">
+                    <Link to="/form" className="w-full bg-main-gradient py-4 rounded-2xl font-bold text-white flex justify-center items-center gap-2 shadow-lg">
                         <GraduationCap size={20} /> Join Now
-                    </button>
+                    </Link>
                 </div>
             </div>
         </header>

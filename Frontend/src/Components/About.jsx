@@ -9,7 +9,7 @@ import {
     Zap,
     Globe
 } from "lucide-react";
-import aboutImage from "../assets/About.png";
+import aboutImage from "../assets/Hero/Pic 2.jpeg";
 
 const About = () => {
     const features = [
@@ -93,7 +93,7 @@ const About = () => {
                                 <img
                                     src={aboutImage}
                                     alt="Legacy"
-                                    className="w-full aspect-[4/5] object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-[-2deg]"
+                                    className="w-full bg-black/30 aspect-[4/5] object-contain transition-all rounded-[3rem] duration-700 group-hover:scale-110 group-hover:rotate-[-2deg]"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/40 to-transparent mix-blend-overlay"></div>
 
