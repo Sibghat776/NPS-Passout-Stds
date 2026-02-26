@@ -1,135 +1,136 @@
 import React from "react";
 import {
-    Users,
-    ArrowRight,
-    ShieldCheck,
-    GraduationCap,
-    History,
-    Target,
-    Zap,
-    Globe
+    Users, ArrowRight, ShieldCheck, GraduationCap,
+    History, Target, Zap, Globe, Award, Star
 } from "lucide-react";
 import aboutImage from "../assets/Hero/Pic 2.jpeg";
 
 const About = () => {
     const features = [
         {
-            title: "Global Connectivity",
-            desc: "Bridge the gap between generations with an elite directory of global leaders.",
-            icon: <Globe size={26} />,
-            gradient: "from-blue-500 to-cyan-400",
-            shadow: "shadow-blue-500/20"
+            title: "Global Network",
+            desc: "Elite directory of global leaders across generations.",
+            icon: <Globe size={20} />,
+            color: "text-primary",
+            bg: "bg-primary/5"
         },
         {
-            title: "Career Mentorship",
-            desc: "Unlock strategic roadmaps through direct access to industry veterans.",
-            icon: <Target size={26} />,
-            gradient: "from-purple-500 to-pink-500",
-            shadow: "shadow-purple-500/20"
+            title: "Mentorship",
+            desc: "Direct access to industry veterans and roadmaps.",
+            icon: <Target size={20} />,
+            color: "text-secondary",
+            bg: "bg-secondary/5"
         },
         {
-            title: "Digital Legacy",
-            desc: "Preserving three decades of excellence in our secure digital sanctuary.",
-            icon: <History size={26} />,
-            gradient: "from-pink-500 to-amber-400",
-            shadow: "shadow-orange-500/20"
+            title: "Legacy",
+            desc: "Preserving three decades of academic excellence.",
+            icon: <History size={20} />,
+            color: "text-accent",
+            bg: "bg-accent/5"
         },
         {
-            title: "Impactful Events",
-            desc: "From high-profile galas to intimate batch reunions that spark change.",
-            icon: <Zap size={26} />,
-            gradient: "from-emerald-500 to-teal-400",
-            shadow: "shadow-emerald-500/20"
+            title: "Events",
+            desc: "From galas to intimate batch reunions.",
+            icon: <Zap size={20} />,
+            color: "text-violet",
+            bg: "bg-violet/5"
         }
     ];
 
     return (
-        <section className="relative w-full bg-[#FCFDFF] py-32 px-6 overflow-hidden">
+        <section id="about" className="relative w-full bg-white py-20 px-6 overflow-hidden">
 
-            {/* 🔹 Soft Abstract Background Colors */}
-            <div id="about" className="absolute top-0 -left-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px]"></div>
-            <div className="absolute bottom-0 -right-[10%] w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[120px]"></div>
+            {/* 🔹 Subtle Academy Background Patterns */}
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-slate-50/50 -skew-x-12 translate-x-32"></div>
 
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="max-w-6xl mx-auto relative z-10">
 
-                {/* 🔹 Header Section */}
-                <div className="mb-20 space-y-4">
-                    <div className="flex items-center gap-3">
-                        <div className="h-[2px] w-12 bg-main-gradient"></div>
-                        <span className="text-sm font-black uppercase tracking-[0.4em] text-primary">About NPS Alumni</span>
-                    </div>
-                    <h2 className="text-5xl md:text-7xl font-black text-[#0F172A] tracking-tight leading-[0.95]">
-                        Legacy of <span className="text-transparent bg-clip-text bg-main-gradient">Excellence</span>, <br />
-                        Bond of <span className="italic font-serif text-secondary">A Lifetime.</span>
-                    </h2>
-                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                    {/* 🔹 LEFT: CONTENT (Compact & Elegant) */}
+                    <div className="lg:col-span-6 space-y-8">
+                        <div className="space-y-4">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-darkBase text-white">
+                                <Star size={12} className="fill-white" />
+                                <span className="text-[9px] font-black uppercase tracking-[0.3em]">Since 1992</span>
+                            </div>
 
-                    {/* 🔹 LEFT: THE STORY & FEATURES (7 Columns) */}
-                    <div className="lg:col-span-7 space-y-12">
-                        <p className="text-2xl text-slate-600 leading-relaxed font-medium max-w-2xl">
-                            For over <span className="text-darkBase border-b-4 border-accent/30">34 years</span>, Noor Public School has been the cradle of leadership. Today, we invite you to be part of an ecosystem that redefines professional networking.
-                        </p>
+                            <h2 className="text-4xl md:text-5xl font-black text-darkBase tracking-tight leading-tight">
+                                Legacy of <span className="text-primary italic font-serif">Excellence</span>,<br />
+                                Bond of a <span className="text-transparent bg-clip-text bg-main-gradient">Lifetime.</span>
+                            </h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <p className="text-base text-slate-500 font-medium leading-relaxed max-w-md">
+                                For 34 years, NPS has nurtured leaders. Join an ecosystem that redefines professional networking and preserves our shared history.
+                            </p>
+                        </div>
+
+                        {/* Feature Grid (Small & Clean) */}
+                        <div className="grid grid-cols-2 gap-4">
                             {features.map((item, idx) => (
-                                <div key={idx} className="group relative p-8 bg-white border border-slate-100 rounded-[2.5rem] shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500">
-                                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} ${item.shadow} flex items-center justify-center text-white mb-6 group-hover:rotate-[10deg] transition-transform`}>
+                                <div key={idx} className="p-5 rounded-3xl border border-slate-100 hover:border-primary/20 hover:shadow-lg hover:shadow-slate-200/50 transition-all duration-300 group">
+                                    <div className={`w-10 h-10 rounded-xl ${item.bg} ${item.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
                                         {item.icon}
                                     </div>
-                                    <h4 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h4>
-                                    <p className="text-slate-500 leading-relaxed text-sm">{item.desc}</p>
+                                    <h4 className="text-sm font-black text-darkBase uppercase tracking-tight mb-1">{item.title}</h4>
+                                    <p className="text-[11px] text-slate-400 font-bold leading-snug">{item.desc}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    {/* 🔹 RIGHT: THE CREATIVE FRAME (5 Columns) */}
-                    <div className="lg:col-span-5 relative">
-                        <div className="sticky top-32">
-                            {/* Main Image Frame */}
-                            <div className="relative rounded-[3rem] overflow-hidden border-[12px] border-white shadow-2xl rotate-2 group">
+                    {/* 🔹 RIGHT: VISUAL (Polished & Educational) */}
+                    <div className="lg:col-span-6 relative">
+                        <div className="relative mx-auto max-w-[400px]">
+                            {/* Main Frame */}
+                            <div className="relative z-10 rounded-[2rem] overflow-hidden border-[8px] border-white shadow-2xl">
                                 <img
                                     src={aboutImage}
-                                    alt="Legacy"
-                                    className="w-full bg-black/30 aspect-[4/5] object-contain transition-all rounded-[3rem] duration-700 group-hover:scale-110 group-hover:rotate-[-2deg]"
+                                    alt="Academy Legacy"
+                                    className="w-full aspect-[4/5] object-cover"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/40 to-transparent mix-blend-overlay"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-darkBase/60 to-transparent"></div>
 
-                                {/* Overlay Stats Box */}
-                                <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-xl p-6 rounded-[2rem] flex items-center justify-between">
-                                    <div>
-                                        <p className="text-xs font-black text-primary uppercase tracking-widest">Global Members</p>
-                                        <p className="text-3xl font-black text-darkBase">5,000+</p>
+                                {/* Small Overlay Badge */}
+                                <div className="absolute bottom-4 left-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-2xl flex items-center justify-between">
+                                    <div className="flex -space-x-2">
+                                        {[1, 2, 3].map(i => (
+                                            <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
+                                        ))}
                                     </div>
-                                    <div className="w-14 h-14 bg-darkBase rounded-2xl flex items-center justify-center text-white">
-                                        <GraduationCap size={28} />
+                                    <div className="text-right">
+                                        <p className="text-[10px] font-black text-white uppercase tracking-widest">Global Members</p>
+                                        <p className="text-lg font-black text-white leading-none">5,000+</p>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Floating Decorative Elements */}
-                            <div className="absolute -top-10 -right-10 w-24 h-24 bg-accent/20 rounded-full blur-2xl animate-pulse"></div>
-                            <div className="absolute top-1/2 -left-12 p-4 bg-white shadow-2xl rounded-2xl flex items-center gap-3 border border-slate-50 max-w-[200px] hidden xl:flex">
-                                <ShieldCheck className="text-emerald-500 shrink-0" size={24} />
-                                <p className="text-[10px] font-bold text-slate-700 leading-tight uppercase">ISO Certified Educational Standard</p>
+                            {/* Floating Stats (Classy Educational Touch) */}
+                            <div className="absolute -top-6 -right-6 bg-white shadow-xl rounded-2xl p-4 border border-slate-50 hidden md:block">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/30">
+                                        <Award size={20} />
+                                    </div>
+                                    <div>
+                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Certified</p>
+                                        <p className="text-xs font-black text-darkBase uppercase">Excellence</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-                {/* 🔹 BOTTOM: ACTION STRIP */}
-                <div className="mt-24 p-10 rounded-[3rem] bg-darkBase relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-main-gradient opacity-0 group-hover:opacity-10 transition-opacity duration-700"></div>
-                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                {/* 🔹 COMPACT CTA STRIP */}
+                <div className="mt-16 p-8 rounded-[2rem] bg-darkBase relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-main-gradient opacity-20 blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+                    <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
                         <div>
-                            <h3 className="text-3xl font-bold text-white mb-2">Ready to claim your spot?</h3>
-                            <p className="text-slate-400">Join the official directory of Noor Public School Alumni.</p>
+                            <h3 className="text-xl font-black text-white tracking-tight italic">Ready to join the inner circle?</h3>
+                            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Official Noor Public School Alumni Directory</p>
                         </div>
-                        <button className="flex items-center gap-4 bg-white text-darkBase px-10 py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-main-gradient hover:text-white transition-all duration-300 shadow-xl shadow-white/5">
-                            Register Now <ArrowRight size={20} />
+                        <button className="flex items-center gap-3 bg-white text-darkBase px-8 py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all duration-300">
+                            Join Now <ArrowRight size={16} />
                         </button>
                     </div>
                 </div>

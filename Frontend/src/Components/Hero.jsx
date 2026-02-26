@@ -1,9 +1,11 @@
 import React from 'react';
 import { ArrowRight, GraduationCap, Globe, Zap, Sparkles } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const Hero = () => {
+    const location = useLocation();
     return (
-        <section id="/" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-hero-gradient pb-5 pt-24">
+        <section id="/" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-hero-gradient pb-5 pt-32">
 
             {/* Dynamic Background Overlays for extra depth */}
             <div className="absolute inset-0 bg-darkBase/20 backdrop-blur-[2px]"></div>
@@ -25,12 +27,12 @@ const Hero = () => {
                         </div>
 
                         {/* Heading - Using your text colors & primary/secondary accents */}
-                        <h1 className="text-6xl lg:text-8xl font-black text-textPrimary leading-[1.1] tracking-tight">
+                        <h1 className="text-6xl lg:text-6xl font-black text-textPrimary leading-[1.1] tracking-tight">
                             Where <span className="text-secondary drop-shadow-sm">Legacy</span> <br />
                             Meets <span className="bg-gradient-to-r from-accent to-orange bg-clip-text text-transparent">Future.</span>
                         </h1>
 
-                        <p className="text-xl text-textSecondary max-w-2xl leading-relaxed font-medium">
+                        <p className="text-lg text-textSecondary max-w-2xl leading-relaxed font-medium">
                             Join the official Noorians Global Registry. A premium space for alumni to
                             <span className="text-textPrimary"> network, mentor, and grow </span>
                             together beyond borders.
@@ -38,14 +40,14 @@ const Hero = () => {
 
                         {/* Buttons - Using your Primary & Accent colors */}
                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
-                            <button className="group relative px-10 py-5 bg-primary text-textPrimary rounded-2xl font-bold text-lg shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center overflow-hidden">
-                                <span className="relative z-10 flex items-center">
+                            <button className="group relative px-8 py-4 bg-primary text-textPrimary rounded-2xl font-bold text-lg shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center overflow-hidden">
+                                <span className="relative text-base z-10 flex items-center">
                                     Claim Your Profile <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
                                 </span>
                                 <div className="absolute inset-0 bg-gradient-to-r from-violet to-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </button>
 
-                            <button className="px-10 py-5 bg-white/5 backdrop-blur-lg border-2 border-white/10 text-textPrimary hover:bg-white/10 rounded-2xl font-bold text-lg transition-all hover:border-secondary/50 shadow-2xl">
+                            <button onClick={() => window.location.href = "/community"} className="px-8 py-4 text-base bg-white/5 backdrop-blur-lg border-2 border-white/10 text-textPrimary hover:bg-white/10 rounded-2xl font-bold transition-all hover:border-secondary/50 shadow-2xl">
                                 Explore Directory
                             </button>
                         </div>
