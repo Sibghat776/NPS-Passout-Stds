@@ -8,9 +8,10 @@ import {
     MapPin,
     Phone,
     ArrowUpRight,
-    Heart
+    Heart,
+    Youtube
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { href, Link } from "react-router-dom";
 import logo from "../assets/Logo.png";
 
 const Footer = () => {
@@ -36,6 +37,33 @@ const Footer = () => {
             ],
         },
     ];
+
+    const socialMedia = [
+        {
+            name: "Facebook",
+            href: "https://www.facebook.com/NoorPublicSchool/",
+            icon: Facebook,
+            color: "#1877F2"
+        },
+        {
+            name: "Instagram",
+            href: "https://www.instagram.com/noor_public_school_karachi/",
+            icon: Instagram,
+            color: "#E4405F"
+        },
+        {
+            name: "Linkedin",
+            href: "https://www.linkedin.com/in/noorpublicschool/",
+            icon: Linkedin,
+            color: "#0077B5"
+        },
+        {
+            name: "Youtube",
+            icon: Youtube,
+            href: "https://www.youtube.com/@noorpublicschoolkarachi",
+            color: "#FF0000"
+        }
+    ]
 
     return (
         <footer className="relative bg-[#0F172A] pt-24 pb-12 px-6 overflow-hidden">
@@ -68,9 +96,14 @@ const Footer = () => {
                         </p>
 
                         <div className="flex items-center gap-4">
-                            {[Facebook, Twitter, Instagram, Linkedin].map((Icon, idx) => (
-                                <a key={idx} href="#" className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:bg-main-gradient hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-xl">
-                                    <Icon size={20} />
+                            {socialMedia.map((item, idx) => (
+                                <a
+                                    key={idx}
+                                    href={item.href}
+                                    className={`w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-xl`}
+                                    style={{ backgroundColor: item.color + "20", borderColor: item.color + "40" }}
+                                >
+                                    <item.icon size={20} />
                                 </a>
                             ))}
                         </div>
