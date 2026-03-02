@@ -40,7 +40,7 @@ const Hero = () => {
 
                         {/* Buttons - Using your Primary & Accent colors */}
                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
-                            <button className="group relative px-8 py-4 bg-primary text-textPrimary rounded-2xl font-bold text-lg shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center overflow-hidden">
+                            <button onClick={() => {window.location.href = "/form"}} className="group relative px-8 py-4 bg-primary text-textPrimary rounded-2xl font-bold text-lg shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center overflow-hidden">
                                 <span className="relative text-base z-10 flex items-center">
                                     Claim Your Profile <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
                                 </span>

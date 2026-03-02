@@ -126,10 +126,10 @@ const About = () => {
                     <div className="absolute top-0 right-0 w-32 h-32 bg-main-gradient opacity-20 blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                     <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
                         <div>
-                            <h3 className="text-xl font-black text-white tracking-tight italic">Ready to join the inner circle?</h3>
+                            <a className="text-xl font-black text-white tracking-tight italic">Ready to join the inner circle?</a>
                             <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Official Noor Public School Alumni Directory</p>
                         </div>
-                        <button className="flex items-center gap-3 bg-white text-darkBase px-8 py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all duration-300">
+                        <button onClick={() => window.location.href = "/form"} className="flex items-center gap-3 bg-white text-darkBase px-8 py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all duration-300">
                             Join Now <ArrowRight size={16} />
                         </button>
                     </div>
