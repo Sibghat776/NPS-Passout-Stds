@@ -1,11 +1,8 @@
-    import express from "express"
+import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import helmet from "helmet"
-import { contactRoute } from "./Routes/contactRoute.js"
-import { connectDB } from "./utils/commonFunctions.js"
-import { galleryRouter } from "./Routes/galleryRoute.js"
-import { registrationRouter } from "./Routes/registrationRoute.js"
+import mongoose from "mongoose"
 
 dotenv.config()
 
@@ -14,11 +11,22 @@ let app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: process.env.CLIENT_URL || true,
-    credentials: true,
+  origin: process.env.CLIENT_URL || true,
+  credentials: true,
 }));
 app.use(helmet())
 
+
+
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO);
+    console.log("✅ DB connected successfully");
+  } catch (error) {
+    console.error("DB connection error:", error);
+  }
+}
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
   connectDB().then(() => {
@@ -31,19 +39,16 @@ if (process.env.NODE_ENV !== "production") {
 
 export default app;
 
-app.use("/api/contact", contactRoute)
-app.use("/api/gallery", galleryRouter)
-app.use("/api/registration", registrationRouter)
 
 
 app.use((err, req, res, next) => {
-    let errorStatus = err.status || 500
-    let errorMessage = err.message || "Something went Wrong"
+  let errorStatus = err.status || 500
+  let errorMessage = err.message || "Something went Wrong"
 
-    res.status(errorStatus).json({
-        success: false,
-        status: errorStatus,
-        message: errorMessage,
-        stack: err.stack
-    })
+  res.status(errorStatus).json({
+    success: false,
+    status: errorStatus,
+    message: errorMessage,
+    stack: err.stack
+  })
 })
