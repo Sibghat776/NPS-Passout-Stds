@@ -9,13 +9,19 @@ import {
     Phone,
     ArrowUpRight,
     Heart,
-    Youtube
+    Youtube,
+    Fingerprint,
+    User,
+    ShieldCheck,
+    Lock
 } from "lucide-react";
 import { href, Link } from "react-router-dom";
 import logo from "../assets/Logo.png";
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
+    const [open, setOpen] = React.useState(false);
+
 
     const footerLinks = [
         {
@@ -164,10 +170,86 @@ const Footer = () => {
                         <a href="#" className="hover:text-white transition">Privacy Policy</a>
                         <a href="#" className="hover:text-white transition">Terms of Service</a>
                     </div>
-                    <p className="flex items-center gap-2">
+                    <p onClick={() => {
+                        setOpen(!open)
+                        console.log(open)
+                    }} className="flex items-center gap-2">
                         Designed with <Heart size={14} className="text-red-500 fill-red-500" /> for Legacy.
                     </p>
                 </div>
+                {open && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+                        {/* 1. Backdrop (Piche ka dhundla parda) */}
+                        <div
+                            className="absolute inset-0 bg-darkBase/60 backdrop-blur-md transition-opacity"
+                            onClick={() => setOpen(false)}
+                        />
+
+                        {/* 2. Modal Card */}
+                        <div className="bg-white w-full max-w-md rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] border-2 border-white relative z-10 overflow-hidden animate-in fade-in zoom-in duration-300">
+
+                            {/* Top Gradient Bar */}
+                            <div className="h-3 bg-main-gradient w-full" />
+
+                            <div className="p-8 md:p-6 space-y-6">
+                                {/* Header */}
+                                <div className="text-center space-y-2">
+                                    <div className="w-20 h-20 bg-primary/10 rounded-[2rem] flex items-center justify-center mx-auto mb-4 border-2 border-primary/20">
+                                        <ShieldCheck size={40} className="text-primary" />
+                                    </div>
+                                    <h3 className="text-3xl font-black text-darkBase tracking-tight uppercase">Admin <span className="text-primary italic">Access.</span></h3>
+                                    <p className="text-slate-400 text-xs font-bold tracking-widest uppercase">Enter credentials to enter dashboard</p>
+                                </div>
+
+                                {/* Form Fields */}
+                                <div className="space-y-5">
+                                    {/* Admin Name */}
+                                    <div className="group relative">
+                                        <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary transition-colors" size={20} />
+                                        <input
+                                            type="text"
+                                            placeholder="Admin Username"
+                                            className="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-slate-400 rounded-2xl focus:bg-white focus:border-primary transition-all outline-none font-bold text-darkBase"
+                                        />
+                                    </div>
+
+                                    {/* Admin Password */}
+                                    <div className="group relative">
+                                        <Fingerprint className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet transition-colors" size={20} />
+                                        <input
+                                            type="password"
+                                            placeholder="Secret Password"
+                                            className="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-slate-400 rounded-2xl focus:bg-white focus:border-violet transition-all outline-none font-bold text-darkBase"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Action Button */}
+                                <div className="space-y-4 pt-2">
+                                    <button
+                                        onClick={() => window.location.href = '/admin-dashboard'} // Yahan routing logic aayegi
+                                        className="w-full py-6 bg-darkBase text-white rounded-2xl font-black text-lg uppercase tracking-[0.2em] shadow-xl hover:bg-main-gradient hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center gap-3 group"
+                                    >
+                                        Unlock Dashboard
+                                        <Lock className="group-hover:rotate-12 transition-transform" size={20} />
+                                    </button>
+
+                                    <button
+                                        onClick={() => setOpen(false)}
+                                        className="w-full text-center text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-orange transition-colors"
+                                    >
+                                        Cancel Access Request
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Footer Decoration */}
+                            <div className="bg-slate-50 py-4 text-center border-t border-slate-100">
+                                <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.3em]">Secure Terminal • NPS-v3.0</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </footer>
     );

@@ -4,6 +4,7 @@ import Form from "./Pages/Form.jsx";
 import "./index.css"
 import Home from "./Pages/Home.jsx";
 import Community from "./Pages/Community.jsx";
+import AdminDashboard from "./Pages/AdminDashboard.jsx";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/form" element={<Form />} />
       <Route path="/community" element={<Community />} />
+      <Route path="/admin" element={<AdminDashboard />} />
     </Routes>
   );
 }

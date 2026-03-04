@@ -64,31 +64,6 @@ const Form = () => {
                     </div>
 
                     <form className="bg-white border-2 border-white shadow-2xl rounded-[3rem] overflow-hidden">
-
-                        {/* 🔹 G.R NUMBER SECTION (Dark Theme) */}
-                        <div className="bg-darkBase p-10 text-center space-y-6">
-                            <div className="space-y-2">
-                                <h3 className="text-white text-2xl font-black flex items-center justify-center gap-3">
-                                    <Fingerprint className="text-primary" size={28} /> VERIFY G.R NUMBER
-                                </h3>
-                                <p className="text-primary font-black text-xs tracking-[0.2em] uppercase">Enter your 4-digit school enrollment number</p>
-                            </div>
-                            <div className="flex justify-center gap-4">
-                                {grNumber.map((digit, index) => (
-                                    <input
-                                        key={index}
-                                        ref={inputRefs[index]}
-                                        type="text"
-                                        value={digit}
-                                        onChange={(e) => handleGRChange(index, e.target.value)}
-                                        onKeyDown={(e) => handleKeyDown(index, e)}
-                                        className="w-16 h-20 md:w-24 md:h-28 text-center text-5xl font-black bg-white/10 border-b-4 border-primary rounded-2xl text-white focus:bg-primary focus:scale-105 transition-all outline-none"
-                                        placeholder="0"
-                                    />
-                                ))}
-                            </div>
-                        </div>
-
                         <div className="p-8 md:p-16 space-y-12">
 
                             {/* 🔹 PERSONAL INFO GRID */}
@@ -138,7 +113,7 @@ const Form = () => {
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Address</label>
                                     <div className="relative group">
                                         <Home className="absolute left-5 top-1/2 -translate-y-1/2 text-accent group-focus-within:scale-110 transition-transform" />
-                                        <input type="text" placeholder="123 Main Street, City, Country" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-blue rounded-2xl outline-none font-black text-darkBase" />
+                                        <input type="text" placeholder="123 Main Street, City, Country" className="w-full pl-14 pr-6 py-5  bg-blue-50/50 border-2 border-transparent focus:border-blue rounded-2xl outline-none font-black text-darkBase" />
                                     </div>
                                 </div>
 
@@ -160,6 +135,50 @@ const Form = () => {
                                         </label>
                                     </div>
                                 </div>
+                                <div className="space-y-2">
+                                    <div className="space-y-4 flex flex-col w-full">
+                                        <label className="text-xs font-black text-start text-darkBase uppercase ml-2">
+                                            Current Professional Status
+                                        </label>
+                                        <div className="grid grid-cols-2 gap-5 h-[64px]">
+                                            {/* FREE / AVAILABLE OPTION */}
+                                            <label className="relative cursor-pointer group">
+                                                <input type="radio" name="status" className="peer hidden" defaultChecked />
+                                                <div className="flex items-center justify-center gap-3 h-full bg-white border-2 border-slate-100 text-slate-400 rounded-2xl font-black text-sm transition-all duration-300 
+                peer-checked:border-primary peer-checked:text-primary peer-checked:bg-primary/5 peer-checked:shadow-[0_0_20px_rgba(var(--color-primary-rgb),0.1)]
+                group-hover:border-primary/50 group-hover:scale-[1.02]">
+
+                                                    <div className="p-2 rounded-lg bg-slate-100 peer-checked:bg-primary peer-checked:text-white transition-colors">
+                                                        <UserCheck size={20} />
+                                                    </div>
+                                                    <span className="tracking-wider">FREE</span>
+                                                </div>
+                                                {/* Active Tick Indicator */}
+                                                <div className="absolute -top-2 -right-2 scale-0 peer-checked:scale-100 transition-transform duration-300 bg-primary text-white p-1 rounded-full shadow-lg">
+                                                    <CheckCircle2 size={14} />
+                                                </div>
+                                            </label>
+
+                                            {/* WORKING OPTION */}
+                                            <label className="relative cursor-pointer group">
+                                                <input type="radio" name="status" className="peer hidden" />
+                                                <div className="flex items-center justify-center gap-3 h-full bg-white border-2 border-slate-100 text-slate-400 rounded-2xl font-black text-sm transition-all duration-300 
+                peer-checked:border-secondary peer-checked:text-secondary peer-checked:bg-secondary/5 peer-checked:shadow-[0_0_20px_rgba(var(--color-secondary-rgb),0.1)]
+                group-hover:border-secondary/50 group-hover:scale-[1.02]">
+
+                                                    <div className="p-2 rounded-lg bg-slate-100 peer-checked:bg-secondary peer-checked:text-white transition-colors">
+                                                        <Briefcase size={20} />
+                                                    </div>
+                                                    <span className="tracking-wider">WORKING</span>
+                                                </div>
+                                                {/* Active Tick Indicator */}
+                                                <div className="absolute -top-2 -right-2 scale-0 peer-checked:scale-100 transition-transform duration-300 bg-secondary text-white p-1 rounded-full shadow-lg">
+                                                    <CheckCircle2 size={14} />
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
 
 
                                 {/* Contact Field */}
@@ -172,7 +191,7 @@ const Form = () => {
                                     <p className="text-textSecondary font-bold text-sm italic">Ye info apne school records ke mutabiq bharein</p>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black text-primary uppercase">Passing Batch</label>
                                         <select className="w-full p-4 rounded-xl border-2 border-primary/20 bg-white font-black text-darkBase outline-none focus:border-primary">
@@ -207,50 +226,6 @@ const Form = () => {
                                     {isOtherCourse && (
                                         <input type="text" placeholder="Type your school group name..." className="w-full max-w-md mx-auto px-6 py-4 rounded-xl border-2 border-primary outline-none font-black text-darkBase animate-bounce-short" />
                                     )}
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <div className="space-y-4 flex flex-col w-full">
-                                    <label className="text-xs font-black text-center text-darkBase uppercase ml-2">
-                                        Current Professional Status
-                                    </label>
-                                    <div className="grid grid-cols-2 gap-5 h-[64px]">
-                                        {/* FREE / AVAILABLE OPTION */}
-                                        <label className="relative cursor-pointer group">
-                                            <input type="radio" name="status" className="peer hidden" defaultChecked />
-                                            <div className="flex items-center justify-center gap-3 h-full bg-white border-2 border-slate-100 text-slate-400 rounded-2xl font-black text-sm transition-all duration-300 
-                peer-checked:border-primary peer-checked:text-primary peer-checked:bg-primary/5 peer-checked:shadow-[0_0_20px_rgba(var(--color-primary-rgb),0.1)]
-                group-hover:border-primary/50 group-hover:scale-[1.02]">
-
-                                                <div className="p-2 rounded-lg bg-slate-100 peer-checked:bg-primary peer-checked:text-white transition-colors">
-                                                    <UserCheck size={20} />
-                                                </div>
-                                                <span className="tracking-wider">FREE</span>
-                                            </div>
-                                            {/* Active Tick Indicator */}
-                                            <div className="absolute -top-2 -right-2 scale-0 peer-checked:scale-100 transition-transform duration-300 bg-primary text-white p-1 rounded-full shadow-lg">
-                                                <CheckCircle2 size={14} />
-                                            </div>
-                                        </label>
-
-                                        {/* WORKING OPTION */}
-                                        <label className="relative cursor-pointer group">
-                                            <input type="radio" name="status" className="peer hidden" />
-                                            <div className="flex items-center justify-center gap-3 h-full bg-white border-2 border-slate-100 text-slate-400 rounded-2xl font-black text-sm transition-all duration-300 
-                peer-checked:border-secondary peer-checked:text-secondary peer-checked:bg-secondary/5 peer-checked:shadow-[0_0_20px_rgba(var(--color-secondary-rgb),0.1)]
-                group-hover:border-secondary/50 group-hover:scale-[1.02]">
-
-                                                <div className="p-2 rounded-lg bg-slate-100 peer-checked:bg-secondary peer-checked:text-white transition-colors">
-                                                    <Briefcase size={20} />
-                                                </div>
-                                                <span className="tracking-wider">WORKING</span>
-                                            </div>
-                                            {/* Active Tick Indicator */}
-                                            <div className="absolute -top-2 -right-2 scale-0 peer-checked:scale-100 transition-transform duration-300 bg-secondary text-white p-1 rounded-full shadow-lg">
-                                                <CheckCircle2 size={14} />
-                                            </div>
-                                        </label>
-                                    </div>
                                 </div>
                             </div>
 

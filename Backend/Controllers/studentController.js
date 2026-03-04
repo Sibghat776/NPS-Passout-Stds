@@ -1,4 +1,4 @@
-import Registration from "../Models/Registration.js";
+import Registration from "../Models/Student.js";
 import { createError, createSuccess } from "../utils/commonFunctions.js";
 
 // ================= REGISTER STUDENT =================
