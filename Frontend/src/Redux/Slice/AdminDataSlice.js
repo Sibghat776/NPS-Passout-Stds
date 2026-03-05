@@ -38,6 +38,6 @@ const adminSlice = createSlice({
     }
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout } = adminSlice.actions;
+export const { loginRequest, loginSuccess, loginFailure, logout } = adminSlice.actions
 
 export default adminSlice.reducer;
