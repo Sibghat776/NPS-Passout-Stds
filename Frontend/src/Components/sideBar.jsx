@@ -3,17 +3,22 @@ import {
     LayoutDashboard, Users, GraduationCap,
     Settings, LogOut, FileText, Bell
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
     const menuItems = [
-        { icon: <LayoutDashboard size={20} />, label: "Overview", active: true },
-        { icon: <Users size={20} />, label: "Students List", active: false },
-        { icon: <GraduationCap size={20} />, label: "Alumni Records", active: false },
-        { icon: <FileText size={20} />, label: "Reports", active: false },
-        { icon: <Bell size={20} />, label: "Notifications", active: false },
-        { icon: <Settings size={20} />, label: "Admin Settings", active: false },
+        { icon: <LayoutDashboard size={20} />, label: "Overview", active: true, link: "overview" },
+        { icon: <Users size={20} />, label: "Students List", active: false, link: "students" },
+        { icon: <GraduationCap size={20} />, label: "Alumni Records", active: false, link: "alumni" },
+        { icon: <FileText size={20} />, label: "Reports", active: false, link: "reports" },
+        { icon: <Bell size={20} />, label: "Notifications", active: false, link: "notifications" },
+        { icon: <Settings size={20} />, label: "Admin Settings", active: false, link: "settings" },
     ];
-
+    const navigate = useNavigate()
+    const handleClick = (link) => {
+        console.log(link)
+        navigate(link)
+    }
     return (
         <div className="fixed left-0 top-0 h-screen w-72 bg-darkBase border-r border-white/10 flex flex-col p-6 z-50">
             {/* Logo Section */}
@@ -36,6 +41,7 @@ const Sidebar = () => {
               ${item.active
                                 ? 'bg-main-gradient text-white shadow-lg shadow-primary/20'
                                 : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
+                        onClick={() => handleClick(item.link)}
                     >
                         <span className={`${item.active ? 'text-white' : 'group-hover:text-primary transition-colors'}`}>
                             {item.icon}

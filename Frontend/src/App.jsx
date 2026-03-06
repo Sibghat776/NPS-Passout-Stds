@@ -6,6 +6,7 @@ import Home from "./Pages/Home.jsx";
 import Community from "./Pages/Community.jsx";
 import AdminDashboard from "./Pages/AdminDashboard.jsx";
 import { ToastContainer } from "react-toastify";
+import PageNotFound from "./Components/PageNotFound.jsx";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/form" element={<Form />} />
         <Route path="/community" element={<Community />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </>

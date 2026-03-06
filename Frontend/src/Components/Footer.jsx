@@ -38,7 +38,7 @@ const Footer = () => {
                 showToast("You are Authenticated!", "success", "light")
                 dispatch(loginSuccess({ name: adminUsername.current.value }))
                 console.log(name, isAuthenticated, isLoading, error)
-                // window.location.href = "/admin"
+                window.location.href = "/admin"
             }, 2000);
         } else {
             showToast("Invalid Credentials! Try Again.", "error", "dark")
@@ -135,7 +135,6 @@ const Footer = () => {
                             ))}
                         </div>
                     </div>
-
                     {/* Links Columns */}
                     <div className="lg:col-span-4 grid grid-cols-2 gap-8">
                         {footerLinks.map((group) => (
