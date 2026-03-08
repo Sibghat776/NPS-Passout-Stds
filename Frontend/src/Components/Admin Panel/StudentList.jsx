@@ -23,11 +23,11 @@ const StudentList = () => {
                 </h2>
 
                 <div className="relative w-full md:w-96 group">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-400 transition-colors" size={20} />
+                    <Search className="absolute left-4 z-10 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-400 transition-colors" size={20} />
                     <input
                         type="text"
                         placeholder="Search by name or email..."
-                        className="w-full bg-richBlack/50 border border-white/10 backdrop-blur-md py-3 pl-12 pr-4 rounded-2xl text-white outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+                        className="w-full bg-[#0F172A]/50 border border-white/10 backdrop-blur-md py-3 pl-12 pr-4 rounded-2xl text-white outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>

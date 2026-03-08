@@ -4,15 +4,16 @@ import {
     Settings, LogOut, FileText, Bell
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
     const menuItems = [
-        { icon: <LayoutDashboard size={20} />, label: "Overview", active: true, link: "overview" },
-        { icon: <Users size={20} />, label: "Students List", active: false, link: "students" },
-        { icon: <GraduationCap size={20} />, label: "Alumni Records", active: false, link: "alumni" },
-        { icon: <FileText size={20} />, label: "Reports", active: false, link: "reports" },
-        { icon: <Bell size={20} />, label: "Notifications", active: false, link: "notifications" },
-        { icon: <Settings size={20} />, label: "Admin Settings", active: false, link: "settings" },
+        { icon: <LayoutDashboard size={20} />, label: "Overview", link: "/admin/overview" },
+        { icon: <Users size={20} />, label: "Students List", link: "/admin/students" },
+        { icon: <GraduationCap size={20} />, label: "Alumni Records", link: "/admin/alumni" },
+        { icon: <FileText size={20} />, label: "Reports", link: "/admin/reports" },
+        { icon: <Bell size={20} />, label: "Notifications", link: "/admin/notifications" },
+        { icon: <Settings size={20} />, label: "Admin Settings", link: "/admin/settings" },
     ];
     const navigate = useNavigate()
     const handleClick = (link) => {
@@ -33,7 +34,7 @@ const Sidebar = () => {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 space-y-2">
+            {/* <nav className="flex-1 space-y-2">
                 {menuItems.map((item, index) => (
                     <button
                         key={index}
@@ -49,6 +50,27 @@ const Sidebar = () => {
                         {item.label}
                     </button>
                 ))}
+            </nav> */}
+
+            <nav className="flex-1 space-y-2">
+                {menuItems.map((item, index) => {
+                    const isActive = location.pathname === item.link; // Dynamic Check
+                    return (
+                        <NavLink
+                            key={index}
+                            to={item.link}
+                            className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl font-bold text-sm transition-all duration-300 group
+                                ${isActive
+                                    ? 'bg-main-gradient text-white shadow-lg shadow-primary/20'
+                                    : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
+                        >
+                            <span className={`${isActive ? 'text-white' : 'group-hover:text-primary transition-colors'}`}>
+                                {item.icon}
+                            </span>
+                            {item.label}
+                        </NavLink>
+                    );
+                })}
             </nav>
 
             {/* Logout */}

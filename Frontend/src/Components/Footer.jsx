@@ -57,7 +57,7 @@ const Footer = () => {
         {
             title: "Community",
             links: [
-                { name: "Annual Gala", path: "/events" },
+                { name: "Events", path: "/" },
                 { name: "Mentorship", path: "/" },
                 { name: "Give Back", path: "/" },
                 { name: "Support", path: "/contact" },
@@ -127,6 +127,7 @@ const Footer = () => {
                                 <a
                                     key={idx}
                                     href={item.href}
+                                    target="_blank"
                                     className={`w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-xl`}
                                     style={{ backgroundColor: item.color + "20", borderColor: item.color + "40" }}
                                 >
@@ -168,7 +169,7 @@ const Footer = () => {
                                 <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary shrink-0">
                                     <Phone size={18} />
                                 </div>
-                                <p className="text-sm">+92 300 1234567</p>
+                                <p className="text-sm">+92 303 2021040</p>
                             </div>
                             <div className="flex items-center gap-4 text-slate-400">
                                 <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent shrink-0">

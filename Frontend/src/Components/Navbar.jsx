@@ -29,9 +29,9 @@ const Navbar = () => {
 
     const navLinks = [
         { name: "Home", path: "/", icon: <Home size={18} />, color: "hover:text-secondary" },
-        { name: "About", path: "#about", icon: <Info size={18} />, color: "hover:text-accent" },
+        { name: "About", path: "/#about", icon: <Info size={18} />, color: "hover:text-accent" },
         { name: "Community", path: "/community", icon: <Users size={18} />, color: "hover:text-violet" },
-        { name: "Contact", path: "#contact", icon: <Phone size={18} />, color: "hover:text-orange" },
+        { name: "Contact", path: "/contact", icon: <Phone size={18} />, color: "hover:text-orange" },
     ];
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -45,7 +45,7 @@ const Navbar = () => {
 
         <header
             className={`w-full fixed top-0 left-0 z-50 transition-all duration-500 ${scrolled || !isHomePage
-                ? "bg-[rgba(29,20,73,0.9)] backdrop-blur-xl shadow-2xl py-3 border-b border-white/5"
+                ? "bg-[#0F172A]/90 backdrop-blur-xl shadow-2xl py-3 border-b border-white/5"
                 : "bg-transparent py-5"
                 }`}
         >
@@ -77,7 +77,7 @@ const Navbar = () => {
                             key={link.name}
                             smooth
                             to={link.path}
-                            className={`relative px-5 py-2 flex items-center gap-2 text-sm font-semibold transition-all duration-300 rounded-xl group ${location.hash === link.path
+                            className={`relative px-5 py-2 flex items-center gap-2 text-sm font-semibold transition-all duration-300 rounded-xl group ${location.pathname === link.path
                                 ? "text-white bg-white/10 shadow-inner"
                                 : "text-textSecondary hover:bg-white/5"
                                 } ${link.color}`}
