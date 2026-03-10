@@ -1,106 +1,67 @@
 import Registration from "../Models/Student.js";
+import { uploadToCloudinary } from "../utils/cloudinary.js";
 import { createError, createSuccess } from "../utils/commonFunctions.js";
 
 // ================= REGISTER STUDENT =================
 export const register = async (req, res, next) => {
     try {
-        const {
-            studentName,
-            classAdmitted,
-            dateOfBirth,
-            stdBFormNo,
-            gender,
-            cast,
-            lastSchoolAttended,
-            fatherName,
-            fatherCNIC,
-            fatherContactNo,
-            fatherOccupation,
-            fatherIncome,
-            motherName,
-            address,
-            religion
-        } = req.body || {};
+        const { studentName, fatherName, contactNo, email, jobTitle, address, gender, status, city, batch, group, lastClass } = req.body;
 
-        // ---------- REQUIRED FIELD VALIDATION ----------
-        const requiredFields = {
-            studentName,
-            classAdmitted,
-            dateOfBirth,
-            gender,
-            fatherName,
-            fatherCNIC,
-            fatherContactNo,
-            motherName,
-            address,
-            religion
-        };
-
-        const missingFields = Object.entries(requiredFields)
-            .filter(([_, value]) => !value?.toString().trim())
-            .map(([key]) => key);
-
-        if (missingFields.length > 0) {
-            return next(
-                createError(
-                    400,
-                    `Required fields missing: ${missingFields.join(", ")}`
-                )
-            );
-        }
-
-        // ---------- GENDER VALIDATION ----------
-        const allowedGenders = ["Male", "Female"];
-        if (!allowedGenders.includes(gender)) {
-            return next(createError(400, "Invalid gender value"));
-        }
-
-        // ---------- NUMERIC FIELD VALIDATION ----------
-        const numericFields = {
-            fatherCNIC,
-            fatherContactNo,
-            fatherIncome,
-            stdBFormNo
-        };
-
-        for (const [key, value] of Object.entries(numericFields)) {
-            if (value && !/^\d+$/.test(value)) {
-                return next(createError(400, `${key} must contain only numbers`));
+        if (!studentName || !fatherName || !contactNo || !email || !address || !gender || !status || !batch || !group || !lastClass) {
+            let missingFields = [];
+            switch (true) {
+                case !studentName: missingFields.push("studentName"); break;
+                case !fatherName: missingFields.push("fatherName"); break;
+                case !contactNo: missingFields.push("contactNo"); break;
+                case !email: missingFields.push("email"); break;
+                case !address: missingFields.push("address"); break;
+                case !gender: missingFields.push("gender"); break;
+                case !status: missingFields.push("status"); break;
+                case !batch: missingFields.push("batch"); break;
+                case !group: missingFields.push("group"); break;
+                case !lastClass: missingFields.push("lastClass"); break;
             }
+            return next(createError(400, `Please fill all fields. Missing fields: ${missingFields.join(", ")}`));
+        }
+        if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+            return next(createError(400, "Please enter a valid email address"));
+        }
+        const existingStudent = await Registration.findOne({ contactNo, email });
+        if (existingStudent) {
+            return next(createError(400, "Student with this contact number and email already exists"));
         }
 
-        // ---------- DUPLICATE B-FORM CHECK ----------
-        if (stdBFormNo) {
-            const exists = await Registration.exists({ stdBFormNo });
-            if (exists) {
-                return next(
-                    createError(409, "Student with this B-Form number already exists")
-                );
-            }
+        let profilePicUrl = null;
+        if (!req.file) {
+            return next(createError(400, "Profile Picture is Required!"));
         }
-
-        // ---------- CREATE STUDENT ----------
-        const student = await Registration.create({
-            studentName: studentName.trim(),
-            classAdmitted,
-            dateOfBirth,
-            stdBFormNo,
+        if (req.file) {
+            let result = await uploadToCloudinary(req.file.buffer, "uploads")
+            console.log(result)
+            profilePicUrl = result.secure_url;
+        }
+        if (contactNo && !/^\d{11}$/.test(contactNo)) {
+            return next(createError(400, "Please enter a valid 11-digit contact number"));
+        }
+        console.log(profilePicUrl)
+        const student = new Registration({
+            studentName,
+            fatherName,
+            contactNo,
+            email,
+            jobTitle,
+            address,
             gender,
-            cast,
-            lastSchoolAttended,
-            fatherName: fatherName.trim(),
-            fatherCNIC,
-            fatherContactNo: fatherContactNo.trim(),
-            fatherOccupation,
-            fatherIncome,
-            motherName: motherName.trim(),
-            address: address.trim(),
-            religion
+            status,
+            city,
+            batch,
+            group,
+            lastClass,
+            profilePic: profilePicUrl
         });
-
-        res.status(201).json(
-            createSuccess(201, "Student registered successfully", student)
-        );
+        let savedStudent = await student.save();
+        let data = createSuccess(201, "Student registered successfully", savedStudent)
+        res.status(201).json(data);
 
     } catch (error) {
         next(error);

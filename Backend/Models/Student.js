@@ -8,7 +8,12 @@ const StudentSchema = new mongoose.Schema({
     jobTitle: { type: String, optional: true },
     address: { type: String, required: true },
     gender: { type: String, required: true },
-    city: { type: String, optional: true }
+    status: { type: String, required: true },
+    city: { type: String, optional: true },
+    batch: { type: String, required: true },
+    group: { type: String, required: true },
+    lastClass: { type: String, required: true },
+    profilePic: { type: String, optional: true },
 }, { timestamps: true })
 
 export default mongoose.model("Student", StudentSchema)
