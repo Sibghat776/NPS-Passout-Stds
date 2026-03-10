@@ -16,7 +16,10 @@ const Form = () => {
     const [previewImage, setPreviewImage] = useState(null);
     const [grNumber, setGrNumber] = useState(["", "", "", ""]);
     const inputRefs = [useRef(), useRef(), useRef(), useRef()];
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Handle Submit Chala")
+    }
     const handleGRChange = (index, value) => {
         if (isNaN(value)) return;
         const newGr = [...grNumber];
@@ -42,8 +45,8 @@ const Form = () => {
 
             {/* 🔹 BACKGROUND ACCENTS */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-[-5%] right-[-5%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[100px]"></div>
-                <div className="absolute bottom-[-5%] left-[-5%] w-[40%] h-[40%] bg-violet/10 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[-5%] right-[-5%] w-[40%] h-[40%] bg-[#4F46E5]/30 rounded-full blur-[100px]"></div>
+                <div className="absolute bottom-[-5%] left-[-5%] w-[40%] h-[40%] bg-[#7C3AED]/30 rounded-full blur-[100px]"></div>
             </div>
 
             <section className="pt-44 pb-32 px-6 relative z-10">
@@ -64,7 +67,7 @@ const Form = () => {
                     </div>
 
                     <form className="bg-white border-2 border-white shadow-2xl rounded-[3rem] overflow-hidden">
-                        <div className="p-8 md:p-16 space-y-12">
+                        <div className="p-8 md:p-16 space-y-12 border-2 border-dashed border-slate-400">
 
                             {/* 🔹 PERSONAL INFO GRID */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -73,16 +76,15 @@ const Form = () => {
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Full Name (As per NIC/B-Form)</label>
                                     <div className="relative group">
                                         <User className="absolute left-5 top-1/2 -translate-y-1/2 text-secondary group-focus-within:scale-110 transition-transform" />
-                                        <input type="text" placeholder="Arsalan Nasir" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-primary rounded-2xl outline-none font-black text-darkBase" />
+                                        <input type="text" placeholder="e.g Arsalan Nasir" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-primary rounded-2xl outline-none font-black text-darkBase" />
                                     </div>
                                 </div>
-
                                 {/* Father Name Field */}
                                 <div className="space-y-3">
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Father's Name</label>
                                     <div className="relative group">
                                         <User2 className="absolute left-5 top-1/2 -translate-y-1/2 text-violet group-focus-within:scale-110 transition-transform" />
-                                        <input type="text" placeholder="Ali Hassam" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-violet rounded-2xl outline-none font-black text-darkBase" />
+                                        <input type="text" placeholder="e.g Ali Hassam" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-violet rounded-2xl outline-none font-black text-darkBase" />
                                     </div>
                                 </div>
                                 <div className="space-y-3">
@@ -97,7 +99,7 @@ const Form = () => {
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Email</label>
                                     <div className="relative group">
                                         <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-blue group-focus-within:scale-110 transition-transform" />
-                                        <input type="text" placeholder="ali.hassam@example.com" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-blue rounded-2xl outline-none font-black text-darkBase" />
+                                        <input type="text" placeholder="arsalan.nasir@example.com" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-blue rounded-2xl outline-none font-black text-darkBase" />
                                     </div>
                                 </div>
 
@@ -250,7 +252,7 @@ const Form = () => {
 
                             {/* 🔹 SUBMIT */}
                             <div className="pt-6">
-                                <button className="w-full py-8 bg-main-gradient rounded-3xl text-white font-black text-2xl uppercase tracking-[0.3em] shadow-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-4 group">
+                                <button onClick={handleSubmit} className="w-full py-8 bg-main-gradient rounded-3xl text-white font-black text-2xl uppercase tracking-[0.3em] shadow-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-4 group">
                                     REGISTER NOW
                                     <Send size={28} className="group-hover:translate-x-2 group-hover:-translate-y-1 transition-transform" />
                                 </button>

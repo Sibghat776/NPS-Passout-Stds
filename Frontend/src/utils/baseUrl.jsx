@@ -1,0 +1,1 @@
+export let baseUrl = "localhost:5000/api/"
