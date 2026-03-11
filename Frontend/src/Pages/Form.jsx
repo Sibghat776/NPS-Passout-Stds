@@ -10,15 +10,36 @@ import {
 } from "lucide-react";
 import Footer from "../Components/Footer";
 import Navbar from "../Components/Navbar";
+import { baseUrl } from "../utils/baseUrl";
 
 const Form = () => {
     const [isOtherCourse, setIsOtherCourse] = useState(false);
     const [previewImage, setPreviewImage] = useState(null);
     const [grNumber, setGrNumber] = useState(["", "", "", ""]);
     const inputRefs = [useRef(), useRef(), useRef(), useRef()];
-    const handleSubmit = (e) => {
+    const [data, setData] = useState({
+        studentName: "",
+        fatherName: "",
+        contactNo: "",
+        email: "",
+        jobTitle: "",
+        address: "",
+        gender: "",
+        status: "",
+        city: "",
+        batch: "",
+        group: "",
+        lastClass: "",
+        profilePic: ""
+    })
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Handle Submit Chala")
+        let res = await axios.post(`${baseUrl}student/register`, data)
+    }
+
+    const handleChange = (e) => {
+        console.log("Hello")
     }
     const handleGRChange = (index, value) => {
         if (isNaN(value)) return;
@@ -76,7 +97,14 @@ const Form = () => {
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Full Name (As per NIC/B-Form)</label>
                                     <div className="relative group">
                                         <User className="absolute left-5 top-1/2 -translate-y-1/2 text-secondary group-focus-within:scale-110 transition-transform" />
-                                        <input type="text" placeholder="e.g Arsalan Nasir" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-primary rounded-2xl outline-none font-black text-darkBase" />
+                                        <input
+                                            type="text"
+                                            placeholder="e.g Arsalan Nasir"
+                                            className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-primary rounded-2xl outline-none font-black text-darkBase"
+                                            onChange={handleChange}
+                                            value={data.studentName}
+                                        />
+
                                     </div>
                                 </div>
                                 {/* Father Name Field */}
@@ -84,14 +112,28 @@ const Form = () => {
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Father's Name</label>
                                     <div className="relative group">
                                         <User2 className="absolute left-5 top-1/2 -translate-y-1/2 text-violet group-focus-within:scale-110 transition-transform" />
-                                        <input type="text" placeholder="e.g Ali Hassam" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-violet rounded-2xl outline-none font-black text-darkBase" />
+                                        <input
+                                            type="text"
+                                            placeholder="e.g Ali Hassam"
+                                            className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-violet rounded-2xl outline-none font-black text-darkBase"
+                                            onChange={handleChange}
+                                            value={data.fatherName}
+                                        />
+
                                     </div>
                                 </div>
                                 <div className="space-y-3">
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Contact Number</label>
                                     <div className="relative group">
                                         <Phone className="absolute left-5 top-1/2 -translate-y-1/2 text-orange group-focus-within:scale-110 transition-transform" />
-                                        <input type="text" placeholder="+92 3XX XXXXXXX" className="w-full bg-blue-50/50 pl-14 pr-6 py-5 border-2 border-transparent focus:border-orange rounded-2xl outline-none font-black text-darkBase" />
+                                        <input
+                                            type="text"
+                                            placeholder="+92 3XX XXXXXXX" className="
+                                            w-full bg-blue-50/50 pl-14 pr-6 py-5 border-2 border-transparent focus:border-orange rounded-2xl outline-none font-black text-darkBase"
+                                            onChange={handleChange}
+                                            value={data.contactNumber}
+                                        />
+
                                     </div>
                                 </div>
 
@@ -99,7 +141,14 @@ const Form = () => {
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Email</label>
                                     <div className="relative group">
                                         <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-blue group-focus-within:scale-110 transition-transform" />
-                                        <input type="text" placeholder="arsalan.nasir@example.com" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-blue rounded-2xl outline-none font-black text-darkBase" />
+                                        <input
+                                            type="text"
+                                            placeholder="arsalan.nasir@example.com"
+                                            className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-blue rounded-2xl outline-none font-black text-darkBase"
+                                            onChange={handleChange}
+                                            value={data.email}
+                                        />
+
                                     </div>
                                 </div>
 
@@ -107,7 +156,14 @@ const Form = () => {
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Job Title</label>
                                     <div className="relative group">
                                         <Briefcase className="absolute left-5 top-1/2 -translate-y-1/2 text-blue-600 group-focus-within:scale-110 transition-transform" />
-                                        <input type="text" placeholder="Software Engineer" className="w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-blue rounded-2xl outline-none font-black text-darkBase" />
+                                        <input
+                                            type="text"
+                                            placeholder="Software Engineer" className="
+                                            w-full pl-14 pr-6 py-5 bg-blue-50/50 border-2 border-transparent focus:border-blue rounded-2xl outline-none font-black text-darkBase"
+                                            onChange={handleChange}
+                                            value={data.jobTitle}
+                                        />
+
                                     </div>
                                 </div>
 
@@ -115,7 +171,14 @@ const Form = () => {
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Address</label>
                                     <div className="relative group">
                                         <Home className="absolute left-5 top-1/2 -translate-y-1/2 text-accent group-focus-within:scale-110 transition-transform" />
-                                        <input type="text" placeholder="123 Main Street, City, Country" className="w-full pl-14 pr-6 py-5  bg-blue-50/50 border-2 border-transparent focus:border-blue rounded-2xl outline-none font-black text-darkBase" />
+                                        <input
+                                            type="text"
+                                            placeholder="123 Main Street, City,
+                                             Country" className="w-full pl-14 pr-6 py-5  bg-blue-50/50 border-2 border-transparent focus:border-blue rounded-2xl outline-none font-black text-darkBase"
+                                            onChange={handleChange}
+                                            value={data.address}
+                                        />
+
                                     </div>
                                 </div>
 
@@ -124,13 +187,27 @@ const Form = () => {
                                     <label className="text-xs font-black text-darkBase uppercase ml-2">Select Gender</label>
                                     <div className="grid grid-cols-2 gap-4 h-[64px]">
                                         <label className="relative cursor-pointer group">
-                                            <input type="radio" name="gender" className="peer hidden" />
+                                            <input
+                                                type="radio"
+                                                name="gender" className="peer
+                                                 hidden"
+                                                onChange={handleChange}
+                                                value={data.gender}
+                                            />
+
                                             <div className="flex items-center justify-center gap-2 h-full bg-slate-100 peer-checked:bg-primary peer-checked:text-white rounded-2xl font-black text-sm transition-all border-2 border-transparent peer-checked:border-primary">
                                                 <Mars size={18} /> MALE
                                             </div>
                                         </label>
                                         <label className="relative cursor-pointer group">
-                                            <input type="radio" name="gender" className="peer hidden" />
+                                            <input
+                                                type="radio"
+                                                name="gender" className="peer
+                                                 hidden"
+                                                onChange={handleChange}
+                                                value={data.gender}
+                                            />
+
                                             <div className="flex items-center justify-center gap-2 h-full bg-slate-100 peer-checked:bg-secondary peer-checked:text-white rounded-2xl font-black text-sm transition-all border-2 border-transparent peer-checked:border-secondary">
                                                 <Venus size={18} /> FEMALE
                                             </div>
@@ -145,7 +222,14 @@ const Form = () => {
                                         <div className="grid grid-cols-2 gap-5 h-[64px]">
                                             {/* FREE / AVAILABLE OPTION */}
                                             <label className="relative cursor-pointer group">
-                                                <input type="radio" name="status" className="peer hidden" defaultChecked />
+                                                <input
+                                                    type="radio"
+                                                    name="status" className="peer
+                                                     hidden" defaultChecked
+                                                    onChange={handleChange}
+                                                    value={data.status}
+                                                />
+
                                                 <div className="flex items-center justify-center gap-3 h-full bg-white border-2 border-slate-100 text-slate-400 rounded-2xl font-black text-sm transition-all duration-300 
                 peer-checked:border-primary peer-checked:text-primary peer-checked:bg-primary/5 peer-checked:shadow-[0_0_20px_rgba(var(--color-primary-rgb),0.1)]
                 group-hover:border-primary/50 group-hover:scale-[1.02]">
@@ -163,7 +247,14 @@ const Form = () => {
 
                                             {/* WORKING OPTION */}
                                             <label className="relative cursor-pointer group">
-                                                <input type="radio" name="status" className="peer hidden" />
+                                                <input
+                                                    type="radio"
+                                                    name="status" className="peer
+                                                     hidden"
+                                                    onChange={handleChange}
+                                                    value={data.status}
+                                                />
+
                                                 <div className="flex items-center justify-center gap-3 h-full bg-white border-2 border-slate-100 text-slate-400 rounded-2xl font-black text-sm transition-all duration-300 
                 peer-checked:border-secondary peer-checked:text-secondary peer-checked:bg-secondary/5 peer-checked:shadow-[0_0_20px_rgba(var(--color-secondary-rgb),0.1)]
                 group-hover:border-secondary/50 group-hover:scale-[1.02]">
@@ -196,7 +287,9 @@ const Form = () => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black text-primary uppercase">Passing Batch</label>
-                                        <select className="w-full p-4 rounded-xl border-2 border-primary/20 bg-white font-black text-darkBase outline-none focus:border-primary">
+                                        <select
+                                            className="w-full p-4 rounded-xl border-2 border-primary/20 bg-white font-black text-darkBase outline-none focus:border-primary">
+
                                             <option>2023-24</option>
                                             <option>2024-25</option>
                                             <option>2025-26</option>
@@ -206,19 +299,26 @@ const Form = () => {
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black text-violet uppercase">Last Class</label>
                                         <select className="w-full p-4 rounded-xl border-2 border-violet/20 bg-white font-black text-darkBase outline-none focus:border-violet">
-                                            <option>Matric (Science)</option>
-                                            <option>Matric (Arts)</option>
+                                            <option>Matric (Bio Science)</option>
+                                            <option>Matric (Computer Science)</option>
+                                            <option>Matric (Commerce)</option>
                                             <option>Intermediate</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <p className="text-xs font-black text-darkBase uppercase">Which group did you study at school?</p>
+                                    <p className="text-xs font-black text-darkBase uppercase">Which course you are doing?</p>
                                     <div className="flex flex-wrap justify-center gap-3">
-                                        {["Computer Science", "Biology", "Commerce", "Other"].map((course) => (
+                                        {["Web Dev", "Graphic Designer", "MS Office", "E-Commerce", "Other"].map((course) => (
                                             <label key={course} className="cursor-pointer group">
-                                                <input type="radio" name="course" className="hidden peer" onChange={() => setIsOtherCourse(course === "Other")} />
+                                                <input
+                                                    type="radio"
+                                                    name="course"
+                                                    className="hidden peer"
+                                                    onChange={() => setIsOtherCourse(course === "Other")}
+                                                    value={data}
+                                                />
                                                 <div className="px-6 py-3 rounded-full bg-white border-2 border-slate-200 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary font-black text-xs uppercase transition-all group-hover:scale-105 shadow-sm">
                                                     {course}
                                                 </div>
@@ -226,7 +326,14 @@ const Form = () => {
                                         ))}
                                     </div>
                                     {isOtherCourse && (
-                                        <input type="text" placeholder="Type your school group name..." className="w-full max-w-md mx-auto px-6 py-4 rounded-xl border-2 border-primary outline-none font-black text-darkBase animate-bounce-short" />
+                                        <input
+                                            type="text"
+                                            placeholder="Type your course name that you are doing now ..."
+                                            className="w-full max-w-md mx-auto px-6 py-4 rounded-xl border-2 border-primary outline-none font-black text-darkBase animate-bounce-short"
+                                            onChange={handleChange}
+                                            
+                                        />
+
                                     )}
                                 </div>
                             </div>

@@ -60,7 +60,7 @@ export const register = async (req, res, next) => {
             profilePic: profilePicUrl
         });
         let savedStudent = await student.save();
-        let data = createSuccess(201, "Student registered successfully", savedStudent)
+        let data = createSuccess(201, "Student registered successfully", { savedStudent });
         res.status(201).json(data);
 
     } catch (error) {
