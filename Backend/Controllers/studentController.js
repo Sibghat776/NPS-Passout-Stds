@@ -4,10 +4,11 @@ import { createError, createSuccess } from "../utils/commonFunctions.js";
 
 // ================= REGISTER STUDENT =================
 export const register = async (req, res, next) => {
+    console.log("Student Registration Start...", req.body)
     try {
-        const { studentName, fatherName, contactNo, email, jobTitle, address, gender, status, city, batch, group, lastClass } = req.body;
+        const { studentName, fatherName, contactNo, email, jobTitle, address, gender, status, batch, course, lastClass } = req.body;
 
-        if (!studentName || !fatherName || !contactNo || !email || !address || !gender || !status || !batch || !group || !lastClass) {
+        if (!studentName || !fatherName || !contactNo || !email || !address || !gender || !status || !batch || !course || !lastClass) {
             let missingFields = [];
             switch (true) {
                 case !studentName: missingFields.push("studentName"); break;
@@ -18,7 +19,7 @@ export const register = async (req, res, next) => {
                 case !gender: missingFields.push("gender"); break;
                 case !status: missingFields.push("status"); break;
                 case !batch: missingFields.push("batch"); break;
-                case !group: missingFields.push("group"); break;
+                case !course: missingFields.push("course"); break;
                 case !lastClass: missingFields.push("lastClass"); break;
             }
             return next(createError(400, `Please fill all fields. Missing fields: ${missingFields.join(", ")}`));
@@ -53,9 +54,8 @@ export const register = async (req, res, next) => {
             address,
             gender,
             status,
-            city,
             batch,
-            group,
+            course,
             lastClass,
             profilePic: profilePicUrl
         });

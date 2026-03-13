@@ -9,9 +9,8 @@ const StudentSchema = new mongoose.Schema({
     address: { type: String, required: true },
     gender: { type: String, required: true },
     status: { type: String, required: true },
-    city: { type: String, optional: true },
     batch: { type: String, required: true },
-    group: { type: String, required: true },
+    course: { type: String, required: true },
     lastClass: { type: String, required: true },
     profilePic: { type: String, optional: true },
 }, { timestamps: true })

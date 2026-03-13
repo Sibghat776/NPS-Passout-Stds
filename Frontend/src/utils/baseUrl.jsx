@@ -1,1 +1,1 @@
-export let baseUrl = "localhost:5000/api/"
+export let baseUrl = "http://localhost:5000/api/"
