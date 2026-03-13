@@ -64,6 +64,11 @@ const Form = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        if (!data.studentName || !data.fatherName || !data.contactNo || !data.email || !data.address || !data.jobTitle) {
+            showToast("Please fill in all required fields.", "error", "light");
+            setLoading(false);
+            return;
+        }
         if (!data.profilePic) {
             showToast("Please upload a profile picture.", "error", "light");
             setLoading(false);
@@ -96,7 +101,7 @@ const Form = () => {
             console.log(res.data);
         } catch (err) {
             console.error(err);
-            showToast("Registration failed. Please try again.", "error", "light");
+            showToast(err.message || "Registration failed. Please try again.", "error", "light");
         } finally {
             setLoading(false);
         }
