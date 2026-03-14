@@ -64,6 +64,7 @@ const Form = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        console.log(data)
         if (!data.studentName || !data.fatherName || !data.contactNo || !data.email || !data.address || !data.jobTitle) {
             showToast("Please fill in all required fields.", "error", "light");
             setLoading(false);

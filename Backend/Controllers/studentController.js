@@ -4,7 +4,7 @@ import { createError, createSuccess } from "../utils/commonFunctions.js";
 
 // ================= REGISTER STUDENT =================
 export const register = async (req, res, next) => {
-    console.log("Student Registration Start...", req.body)
+    console.log("Student Registration Start...", req.body, "+", req.file)
     try {
         const { studentName, fatherName, contactNo, email, jobTitle, address, gender, status, batch, course, lastClass } = req.body;
 
@@ -38,7 +38,7 @@ export const register = async (req, res, next) => {
         }
         if (req.file) {
             let result = await uploadToCloudinary(req.file.buffer, "uploads")
-            console.log(result)
+            console.log(result.secure_url)
             profilePicUrl = result.secure_url;
         }
         if (contactNo && !/^\d{11}$/.test(contactNo)) {
@@ -60,7 +60,7 @@ export const register = async (req, res, next) => {
             profilePic: profilePicUrl
         });
         let savedStudent = await student.save();
-        let data = createSuccess(201, "Student registered successfully", { savedStudent });
+        let data = createSuccess(201, "Student registered successfully", savedStudent);
         res.status(201).json(data);
 
     } catch (error) {
