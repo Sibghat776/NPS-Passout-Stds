@@ -4,64 +4,70 @@ import { createError, createSuccess } from "../utils/commonFunctions.js";
 
 // ================= REGISTER STUDENT =================
 export const register = async (req, res, next) => {
-    console.log("Student Registration Start...", req.body, "+", req.file)
     try {
-        const { studentName, fatherName, contactNo, email, jobTitle, address, gender, status, batch, course, lastClass } = req.body;
+        const {
+            studentName, fatherName, contactNo, email,
+            jobTitle, address, gender, status, batch, course, lastClass
+        } = req.body;
 
-        if (!studentName || !fatherName || !contactNo || !email || !address || !gender || !status || !batch || !course || !lastClass) {
-            let missingFields = [];
-            switch (true) {
-                case !studentName: missingFields.push("studentName"); break;
-                case !fatherName: missingFields.push("fatherName"); break;
-                case !contactNo: missingFields.push("contactNo"); break;
-                case !email: missingFields.push("email"); break;
-                case !address: missingFields.push("address"); break;
-                case !gender: missingFields.push("gender"); break;
-                case !status: missingFields.push("status"); break;
-                case !batch: missingFields.push("batch"); break;
-                case !course: missingFields.push("course"); break;
-                case !lastClass: missingFields.push("lastClass"); break;
-            }
-            return next(createError(400, `Please fill all fields. Missing fields: ${missingFields.join(", ")}`));
+        // ✅ 1. Required fields check
+        const missingFields = [];
+        if (!studentName) missingFields.push("studentName");
+        if (!fatherName) missingFields.push("fatherName");
+        if (!contactNo) missingFields.push("contactNo");
+        if (!email) missingFields.push("email");
+        if (!address) missingFields.push("address");
+        if (!gender) missingFields.push("gender");
+        if (!status) missingFields.push("status");
+        if (!batch) missingFields.push("batch");
+        if (!course) missingFields.push("course");
+        if (!lastClass) missingFields.push("lastClass");
+
+        if (missingFields.length > 0) {
+            return next(createError(400, `Missing fields: ${missingFields.join(", ")}`));
         }
-        if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+
+        // ✅ 2. Email format check
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
             return next(createError(400, "Please enter a valid email address"));
         }
-        const existingStudent = await Registration.findOne({ contactNo, email });
-        if (existingStudent) {
-            return next(createError(400, "Student with this contact number and email already exists"));
+
+        // ✅ 3. ContactNo format check — Cloudinary se PEHLE
+        if (!/^\d{11}$/.test(contactNo)) {
+            return next(createError(400, "Please enter a valid 11-digit contact number"));
         }
 
-        let profilePicUrl = null;
+        // ✅ 4. Duplicate check
+        const existingStudent = await Registration.findOne({
+            $or: [{ contactNo }, { email }]
+        });
+        if (existingStudent) {
+            if (existingStudent.contactNo === contactNo && existingStudent.email === email) {
+                return next(createError(400, "This contact number and email are already registered"));
+            } else if (existingStudent.contactNo === contactNo) {
+                return next(createError(400, "This contact number is already registered"));
+            } else {
+                return next(createError(400, "This email is already registered"));
+            }
+        }
+
+        // ✅ 5. Profile pic check + Cloudinary upload — sabse aakhir mein
         if (!req.file) {
             return next(createError(400, "Profile Picture is Required!"));
         }
-        if (req.file) {
-            let result = await uploadToCloudinary(req.file.buffer, "uploads")
-            console.log(result.secure_url)
-            profilePicUrl = result.secure_url;
-        }
-        if (contactNo && !/^\d{11}$/.test(contactNo)) {
-            return next(createError(400, "Please enter a valid 11-digit contact number"));
-        }
-        console.log(profilePicUrl)
+        const result = await uploadToCloudinary(req.file.buffer, "uploads");
+        const profilePicUrl = result.secure_url;
+
+        // ✅ 6. Save student
         const student = new Registration({
-            studentName,
-            fatherName,
-            contactNo,
-            email,
-            jobTitle,
-            address,
-            gender,
-            status,
-            batch,
-            course,
-            lastClass,
+            studentName, fatherName, contactNo, email,
+            jobTitle, address, gender, status,
+            batch, course, lastClass,
             profilePic: profilePicUrl
         });
-        let savedStudent = await student.save();
-        let data = createSuccess(201, "Student registered successfully", savedStudent);
-        res.status(201).json(data);
+
+        const savedStudent = await student.save();
+        res.status(201).json(createSuccess(201, "Student registered successfully", savedStudent));
 
     } catch (error) {
         next(error);

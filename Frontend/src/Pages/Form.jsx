@@ -64,31 +64,39 @@ const Form = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        console.log(data)
-        if (!data.studentName || !data.fatherName || !data.contactNo || !data.email || !data.address || !data.jobTitle) {
-            showToast("Please fill in all required fields.", "error", "light");
+        const cleanedContactNo = data.contactNo.replace(/\D/g, ''); // Remove non-digit characters
+        if (!data.studentName || !data.fatherName || !cleanedContactNo || !data.email || !data.address || !data.jobTitle) {
+            showToast("Please fill in all required fields.", "error", "dark");
+            setLoading(false);
+            return;
+        }
+        if (cleanedContactNo.length !== 11) {
+            showToast("Please enter a valid 11-digit contact number.", "error", "dark");
             setLoading(false);
             return;
         }
         if (!data.profilePic) {
-            showToast("Please upload a profile picture.", "error", "light");
+            showToast("Please upload a profile picture.", "error", "dark");
             setLoading(false);
             return;
         }
         if (!data.course) {
-            showToast("Please select your current course.", "error", "light");
+            showToast("Please select your current course.", "error", "dark");
             setLoading(false);
             return;
         }
         if (!data.gender || !data.status) {
-            showToast("Please select your gender and professional status.", "error", "light");
+            showToast("Please select your gender and professional status.", "error", "dark");
             setLoading(false);
             return;
         }
-        // Kyunke image upload karni hai, isliye FormData use karna zarori hai
         const formData = new FormData();
         Object.keys(data).forEach(key => {
-            formData.append(key, data[key]);
+            if (key === "contectNo") {
+                formData.append("contactNo", cleanedContactNo);
+            } else {
+                formData.append(key, data[key])
+            }
         });
 
         try {
@@ -102,7 +110,7 @@ const Form = () => {
             console.log(res.data);
         } catch (err) {
             console.error(err);
-            showToast(err.message || "Registration failed. Please try again.", "error", "light");
+            showToast(err || "Registration failed. Please try again.", "error", "dark");
         } finally {
             setLoading(false);
         }
