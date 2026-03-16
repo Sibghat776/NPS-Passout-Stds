@@ -3,8 +3,8 @@ import mongoose from "mongoose"
 const StudentSchema = new mongoose.Schema({
     studentName: { type: String, required: true },
     fatherName: { type: String, required: true },
-    contactNo: { type: String, unique: true, sparse: true },
-    email: { type: String, required: true },
+    contactNo: { type: String, sparse: true },
+    email: { type: String, unique: true, required: true, },
     jobTitle: { type: String, required: true },
     address: { type: String, required: true },
     gender: { type: String, required: true },

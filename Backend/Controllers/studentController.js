@@ -39,19 +39,12 @@ export const register = async (req, res, next) => {
         }
 
         // ✅ 4. Duplicate check
-        const existingStudent = await Student.findOne({
-            $or: [{ contactNo: req.body.contactNo }, { email: req.body.email }]
-        });
-        if (existingStudent) {
-            if (existingStudent.contactNo == contactNo && existingStudent.email == email) {
-                console.log(existingStudent)
-                return next(createError(400, "This contact number and email are already registered"));
-            } else if (existingStudent.contactNo == contactNo) {
-                return next(createError(400, "This contact number is already registered"));
-            } else {
-                return next(createError(400, "This email is already registered"));
-            }
+        const existingStudent = await Student.findOne({ email: req.body.email });
+        console.log(existingStudent)
+        if (existingStudent == contactNo) {
+            return next(createError(400, "This contact number is already registered"));
         }
+
 
         // ✅ 5. Profile pic check + Cloudinary upload — sabse aakhir mein
         if (!req.file) {

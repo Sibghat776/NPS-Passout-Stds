@@ -8,7 +8,7 @@ import Navbar from './Navbar';
 
 const Contact = () => {
     return (
-        <div className="bg-darkBase min-h-screen">
+        <div className="bg-[#0d1529]/95 min-h-screen">
             <Navbar />
 
             {/* Main Wrapper with Padding for Navbar */}
@@ -33,7 +33,7 @@ const Contact = () => {
                                 icon: <Mail style={{ color: '#4F46E5' }} />,
                                 label: "Email Support",
                                 value: "noorpubsch@gmail.com",
-                                desc: "Response within 2 hours"
+                                desc: "Our Official Email Address"
                             },
                             {
                                 icon: <Phone style={{ color: '#06B6D4' }} />,
@@ -45,7 +45,7 @@ const Contact = () => {
                                 icon: <MapPin style={{ color: '#7C3AED' }} />,
                                 label: "Main Campus",
                                 value: "Karachi, Pakistan",
-                                desc: "Block 10, Federal B Area"
+                                desc: "Ghazi Nagar, Street # 20, Siddiq Wahab Road, Garden West, Karachi"
                             },
                         ].map((item, i) => (
                             <div key={i} className="group border p-6 rounded-[2rem] transition-all cursor-pointer"
@@ -61,7 +61,10 @@ const Contact = () => {
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{item.label}</p>
-                                        <h4 className="text-white font-bold mt-1 break-all">{item.value}</h4>
+                                        <h4 className="text-white font-bold mt-1 break-all">{
+                                            item.value == "noorpubsch@gmail.com" ? <a href="mailto:noorpubsch@gmail.com" target='_blank'>{item.value}</a> : <span>{item.value}</span>
+                                        }
+                                        </h4>
                                         <p className="text-[11px] text-slate-400 mt-1 font-medium italic">{item.desc}</p>
                                     </div>
                                 </div>

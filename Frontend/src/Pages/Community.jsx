@@ -6,6 +6,8 @@ import {
 } from "lucide-react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import useFetch from "../utils/commonFunctions";
+import { baseUrl } from "../utils/baseUrl";
 
 const Community = () => {
     // Filter States
@@ -14,7 +16,9 @@ const Community = () => {
     const [selectedCourse, setSelectedCourse] = useState("All Courses");
     const [selectedDegree, setSelectedDegree] = useState("All Degrees");
     const [selectedStatus, setSelectedStatus] = useState("All Status");
-
+    const res = useFetch(`${baseUrl}student/getStudents`)
+    console.log(res.data.data, "All Students here...")
+    const data = res.data.data
     // Sample Data with more details
     const alumniList = [
         {
@@ -117,11 +121,11 @@ const Community = () => {
             {/* 🔹 ALUMNI VIBRANT GRID */}
             <section className="py-20 px-6 max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {alumniList.map((student) => (
-                        <div key={student.id} className="group bg-white rounded-[3rem] p-8 border border-slate-100 hover:shadow-2xl transition-all duration-500 relative overflow-hidden flex flex-col items-center text-center">
+                    {data.map((student) => (
+                        <div key={student._id} className="group bg-white rounded-[3rem] p-8 border border-slate-100 hover:shadow-2xl transition-all duration-500 relative overflow-hidden flex flex-col items-center text-center">
 
                             {/* Color Top Bar */}
-                            <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${student.id % 2 === 0 ? 'from-primary to-cyan-400' : 'from-secondary to-pink-500'}`}></div>
+                            <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${student._id % 2 === 0 ? 'from-primary to-cyan-400' : 'from-secondary to-pink-500'}`}></div>
 
                             {/* Status Badge */}
                             <div className={`absolute top-6 right-8 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest ${student.status === 'Working' ? 'bg-emerald-100 text-emerald-600' : 'bg-orange-100 text-orange-600'}`}>
@@ -130,13 +134,13 @@ const Community = () => {
 
                             {/* Profile Image with Ring */}
                             <div className={`w-28 h-28 rounded-[2.5rem] p-1.5 border-4 ${student.color} mb-6 mt-4 rotate-3 group-hover:rotate-0 transition-transform duration-500 shadow-xl shadow-slate-200`}>
-                                <img src={student.img} alt={student.name} className="w-full h-full object-cover rounded-[2rem]" />
+                                <img src={student.profilePic} alt={student.studentName} className="w-full h-full object-cover rounded-[2rem]" />
                             </div>
 
                             <div className="space-y-1 mb-6">
-                                <h3 className="text-2xl font-black text-darkBase tracking-tight">{student.name}</h3>
+                                <h3 className="text-2xl font-black text-darkBase tracking-tight">{student.studentName}</h3>
                                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
-                                    <User2 size={12} /> S/O: {student.father}
+                                    <User2 size={12} /> S/O: {student.fatherName}
                                 </p>
                             </div>
 
@@ -152,7 +156,7 @@ const Community = () => {
                                 </div>
                                 <div className="bg-lightBase p-3 rounded-2xl flex flex-col items-center gap-1">
                                     <Award size={14} className="text-accent" />
-                                    <span className="text-[10px] font-black text-darkBase uppercase leading-none">{student.degree}</span>
+                                    <span className="text-[10px] font-black text-darkBase uppercase leading-none">{student.jobTitle}</span>
                                 </div>
                                 <div className="bg-lightBase p-3 rounded-2xl flex flex-col items-center gap-1">
                                     <Activity size={14} className="text-violet" />
