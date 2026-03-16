@@ -19,7 +19,7 @@ import { href, Link } from "react-router-dom";
 import logo from "../assets/Logo.png";
 import { useRef } from "react";
 import { showToast } from "../utils/commonFunctions";
-import reducer, { loginRequest, loginSuccess } from "../Redux/Slice/AdminDataSlice";
+import reducer, { loginRequest, loginSuccess } from "../Redux/Slice/AdminDataSlice.jsx";
 import { useDispatch, useSelector } from "react-redux";
 
 const Footer = () => {

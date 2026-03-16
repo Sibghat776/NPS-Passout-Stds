@@ -11,6 +11,7 @@ import StudentList from "./Components/Admin Panel/StudentList.jsx";
 import Overview from "./Components/Admin Panel/Overview.jsx";
 import AlumniRecords from "./Components/Admin Panel/AlumniRecords.jsx";
 import Contact from "./Components/Contact.jsx";
+import Profile from "./Pages/profile.jsx";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/form" element={<Form />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/admin" element={<AdminDashboard />} >
           <Route index element={<Navigate to={"overview"} />} />
           <Route path="students" element={<StudentList />} />

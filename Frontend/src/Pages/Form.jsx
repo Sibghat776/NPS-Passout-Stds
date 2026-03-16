@@ -10,12 +10,16 @@ import Footer from "../Components/Footer";
 import Navbar from "../Components/Navbar";
 import { baseUrl } from "../utils/baseUrl";
 import { showToast } from "../utils/commonFunctions";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addStudent, setLoading, setError } from "../Redux/Slice/studentSlice";
 
 const Form = () => {
     const [isOtherCourse, setIsOtherCourse] = useState(false);
     const [previewImage, setPreviewImage] = useState(null);
-    const [loading, setLoading] = useState(false);
-
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { loading } = useSelector(state => state.students);
     const [data, setData] = useState({
         studentName: "",
         fatherName: "",
@@ -63,8 +67,12 @@ const Form = () => {
     // Form Submission Logic
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Local loading state
         setLoading(true);
-        const cleanedContactNo = data.contactNo.replace(/\D/g, ''); // Remove non-digit characters
+
+        const cleanedContactNo = data.contactNo.replace(/\D/g, '');
+
         if (!data.studentName || !data.fatherName || !cleanedContactNo || !data.email || !data.address || !data.jobTitle) {
             showToast("Please fill in all required fields.", "error", "dark");
             setLoading(false);
@@ -90,29 +98,49 @@ const Form = () => {
             setLoading(false);
             return;
         }
+
         const formData = new FormData();
         Object.keys(data).forEach(key => {
-            if (key === "contectNo") {
+            if (key === "contactNo") {
                 formData.append("contactNo", cleanedContactNo);
             } else {
-                formData.append(key, data[key])
+                formData.append(key, data[key]);
             }
         });
 
+        // ✅ Redux loading true karo
+        dispatch(setLoading(true));
+
         try {
             const res = await axios.post(`${baseUrl}student/register`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            }
-            );
-            showToast("Registration Successful!", "success", "light");
-            console.log(res.data);
+                headers: { "Content-Type": "multipart/form-data" }
+            });
+
+            const savedStudent = res.data.data;
+
+            // ✅ 1. Redux mein add karo
+            dispatch(addStudent(savedStudent));
+            // ✅ 2. LocalStorage mein save karo (profile ke liye)
+            localStorage.setItem("student", JSON.stringify(savedStudent));
+
+            showToast(res?.data?.message, "success", "light");
+
+            // ✅ 3. Profile page pe redirect karo
+            navigate("/profile");
+
+
         } catch (err) {
             console.error(err);
-            showToast(err || "Registration failed. Please try again.", "error", "dark");
+            const errMsg = err.response?.data?.message || "Registration failed. Please try again.";
+
+            // ✅ Redux mein error set karo
+            dispatch(setError(errMsg));
+
+            showToast(errMsg, "error", "dark");
         } finally {
+            // ✅ Dono loading false karo
             setLoading(false);
+            dispatch(setLoading(false));
         }
     };
 

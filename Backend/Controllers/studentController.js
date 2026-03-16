@@ -1,4 +1,4 @@
-import Registration from "../Models/Student.js";
+import Student from "../Models/Student.js";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
 import { createError, createSuccess } from "../utils/commonFunctions.js";
 
@@ -16,6 +16,7 @@ export const register = async (req, res, next) => {
         if (!fatherName) missingFields.push("fatherName");
         if (!contactNo) missingFields.push("contactNo");
         if (!email) missingFields.push("email");
+        if (!jobTitle) missingFields.push("jobTitle");
         if (!address) missingFields.push("address");
         if (!gender) missingFields.push("gender");
         if (!status) missingFields.push("status");
@@ -32,19 +33,20 @@ export const register = async (req, res, next) => {
             return next(createError(400, "Please enter a valid email address"));
         }
 
-        // ✅ 3. ContactNo format check — Cloudinary se PEHLE
+
         if (!/^\d{11}$/.test(contactNo)) {
             return next(createError(400, "Please enter a valid 11-digit contact number"));
         }
 
         // ✅ 4. Duplicate check
-        const existingStudent = await Registration.findOne({
-            $or: [{ contactNo }, { email }]
+        const existingStudent = await Student.findOne({
+            $or: [{ contactNo: req.body.contactNo }, { email: req.body.email }]
         });
         if (existingStudent) {
-            if (existingStudent.contactNo === contactNo && existingStudent.email === email) {
+            if (existingStudent.contactNo == contactNo && existingStudent.email == email) {
+                console.log(existingStudent)
                 return next(createError(400, "This contact number and email are already registered"));
-            } else if (existingStudent.contactNo === contactNo) {
+            } else if (existingStudent.contactNo == contactNo) {
                 return next(createError(400, "This contact number is already registered"));
             } else {
                 return next(createError(400, "This email is already registered"));
@@ -59,14 +61,15 @@ export const register = async (req, res, next) => {
         const profilePicUrl = result.secure_url;
 
         // ✅ 6. Save student
-        const student = new Registration({
+        const student = new Student({
             studentName, fatherName, contactNo, email,
             jobTitle, address, gender, status,
             batch, course, lastClass,
             profilePic: profilePicUrl
         });
-
+        // console.log(student)
         const savedStudent = await student.save();
+        // console.log(savedStudent)
         res.status(201).json(createSuccess(201, "Student registered successfully", savedStudent));
 
     } catch (error) {
@@ -74,23 +77,23 @@ export const register = async (req, res, next) => {
     }
 };
 
-// ================= GET ALL REGISTRATIONS =================
+// ================= GET ALL StudentS =================
 export const getStudents = async (req, res, next) => {
     try {
-        const registrations = await Registration.find().sort({ createdAt: -1 });
+        const Students = await Student.find().sort({ createdAt: -1 });
 
         res.status(200).json(
-            createSuccess(200, "Students fetched successfully", registrations)
+            createSuccess(200, "Students fetched successfully", Students)
         );
     } catch (error) {
         next(error);
     }
 };
 
-// ================= GET REGISTRATION BY ID =================
+// ================= GET Student BY ID =================
 export const getStudentById = async (req, res, next) => {
     try {
-        const student = await Registration.findById(req.params.id);
+        const student = await Student.findById(req.params.id);
 
         if (!student) {
             return next(createError(404, "Student not found"));
@@ -104,7 +107,7 @@ export const getStudentById = async (req, res, next) => {
 
 export const deleteAllStudents = async (req, res, next) => {
     try {
-        await Registration.deleteMany({});
+        await Student.deleteMany({});
         const data = createSuccess(200, "All students deleted successfully", null)
         res.status(200).json(data);
     }
@@ -115,7 +118,7 @@ export const deleteAllStudents = async (req, res, next) => {
 
 export const deleteStudentById = async (req, res, next) => {
     try {
-        const student = await Registration.findByIdAndDelete(req.params.id);
+        const student = await Student.findByIdAndDelete(req.params.id);
         if (!student) {
             return next(createError(404, "Student not found"));
         }

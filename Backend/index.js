@@ -10,16 +10,14 @@ dotenv.config()
 let app = express()
 
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: process.env.CLIENT_URL || true,
+  origin: true,
   credentials: true,
 }));
 app.use(helmet())
 
 app.use("/api/student", studentRouter)
 
-// ✅ Error handler pehle — export se pehle
 app.use((err, req, res, next) => {
   let errorStatus = err.status || 500
   let errorMessage = err.message || "Something went Wrong"
