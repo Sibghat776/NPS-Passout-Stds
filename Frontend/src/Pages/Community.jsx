@@ -143,7 +143,7 @@ const Community = () => {
                                     <User2 size={12} /> S/O: {student.fatherName}
                                 </p>
                             </div>
-
+                            
                             {/* Data Points (Icon Based) */}
                             <div className="w-full grid grid-cols-2 gap-3 mb-8">
                                 <div className="bg-lightBase p-3 rounded-2xl flex flex-col items-center gap-1">

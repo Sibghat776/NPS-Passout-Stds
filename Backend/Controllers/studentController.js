@@ -40,9 +40,8 @@ export const register = async (req, res, next) => {
 
         // ✅ 4. Duplicate check
         const existingStudent = await Student.findOne({ email: req.body.email });
-        console.log(existingStudent)
-        if (existingStudent == contactNo) {
-            return next(createError(400, "This contact number is already registered"));
+        if (existingStudent == email) {
+            return next(createError(400, "This email address already registered"));
         }
 
 

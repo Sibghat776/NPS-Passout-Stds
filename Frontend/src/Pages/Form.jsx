@@ -131,7 +131,7 @@ const Form = () => {
         } catch (err) {
             console.error(err);
             const errMsg = err.response?.data?.message || "Registration failed. Please try again.";
-
+            console.log(err.response)
             // ✅ Redux mein error set karo
             dispatch(setError(errMsg));
 
