@@ -33,26 +33,26 @@ export const register = async (req, res, next) => {
             return next(createError(400, "Please enter a valid email address"));
         }
 
-
         if (!/^\d{11}$/.test(contactNo)) {
             return next(createError(400, "Please enter a valid 11-digit contact number"));
         }
-
+        
         // ✅ 4. Duplicate check
         const existingStudent = await Student.findOne({ email: req.body.email });
         if (existingStudent == email) {
             return next(createError(400, "This email address already registered"));
         }
-
-
+        
+        
         // ✅ 5. Profile pic check + Cloudinary upload — sabse aakhir mein
         if (!req.file) {
             return next(createError(400, "Profile Picture is Required!"));
         }
         const result = await uploadToCloudinary(req.file.buffer, "uploads");
         const profilePicUrl = result.secure_url;
-
+        
         // ✅ 6. Save student
+        console.log("I am here...")
         const student = new Student({
             studentName, fatherName, contactNo, email,
             jobTitle, address, gender, status,

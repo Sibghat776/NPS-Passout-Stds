@@ -120,7 +120,7 @@ const Form = () => {
             // ✅ 1. Redux mein add karo
             dispatch(addStudent(savedStudent));
             // ✅ 2. LocalStorage mein save karo (profile ke liye)
-            localStorage.setItem("student", JSON.stringify(savedStudent));
+            localStorage.setItem("studentId", JSON.stringify(savedStudent._id));
 
             showToast(res?.data?.message, "success", "light");
 
@@ -341,7 +341,6 @@ const Form = () => {
                                     </div>
                                 </div>
                             </div>
-
                             {/* 🔹 SCHOOL BACKGROUND */}
                             <div className="bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2.5rem] p-8 md:p-12 text-center space-y-8">
                                 <div className="space-y-2">
@@ -432,9 +431,18 @@ const Form = () => {
                                     disabled={loading}
                                     className="w-full py-8 bg-main-gradient rounded-3xl text-white font-black text-2xl uppercase tracking-[0.3em] shadow-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-4 group disabled:opacity-70"
                                 >
-                                    {loading ? "Registering..." : "REGISTER NOW"}
+                                    Register Now
+
+                                    {loading && (
+                                        <div className="flex justify-center items-center gap-2">
+                                            <div className="w-3 h-3 rounded-full bg-primary animate-bounce [animation-delay:0ms]"></div>
+                                            <div className="w-3 h-3 rounded-full bg-primary animate-bounce [animation-delay:150ms]"></div>
+                                            <div className="w-3 h-3 rounded-full bg-primary animate-bounce [animation-delay:300ms]"></div>
+                                        </div>
+                                    )}
                                     {!loading && <Send size={28} className="group-hover:translate-x-2 group-hover:-translate-y-1 transition-transform" />}
                                 </button>
+
                                 <div className="flex items-center justify-center gap-2 mt-6 text-emerald-600 font-black text-[10px] uppercase tracking-widest">
                                     <ShieldCheck size={16} /> Secure Student Directory System
                                 </div>
