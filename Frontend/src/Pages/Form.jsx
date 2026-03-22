@@ -69,33 +69,33 @@ const Form = () => {
         e.preventDefault();
 
         // Local loading state
-        setLoading(true);
+        dispatch(setLoading(true));
 
         const cleanedContactNo = data.contactNo.replace(/\D/g, '');
 
         if (!data.studentName || !data.fatherName || !cleanedContactNo || !data.email || !data.address || !data.jobTitle) {
             showToast("Please fill in all required fields.", "error", "dark");
-            setLoading(false);
+            dispatch(setLoading(true))
             return;
         }
         if (cleanedContactNo.length !== 11) {
             showToast("Please enter a valid 11-digit contact number.", "error", "dark");
-            setLoading(false);
+            dispatch(setLoading(true))
             return;
         }
         if (!data.profilePic) {
             showToast("Please upload a profile picture.", "error", "dark");
-            setLoading(false);
+            dispatch(setLoading(true))
             return;
         }
         if (!data.course) {
             showToast("Please select your current course.", "error", "dark");
-            setLoading(false);
+            dispatch(setLoading(true))
             return;
         }
         if (!data.gender || !data.status) {
             showToast("Please select your gender and professional status.", "error", "dark");
-            setLoading(false);
+            dispatch(setLoading(true))
             return;
         }
 
@@ -120,11 +120,9 @@ const Form = () => {
             // ✅ 1. Redux mein add karo
             dispatch(addStudent(savedStudent));
             // ✅ 2. LocalStorage mein save karo (profile ke liye)
-            localStorage.setItem("student", JSON.stringify(savedStudent));
+            localStorage.setItem("student", JSON.stringify(savedStudent._id));
 
             showToast(res?.data?.message, "success", "light");
-
-            // ✅ 3. Profile page pe redirect karo
             navigate("/profile");
 
 
@@ -138,7 +136,7 @@ const Form = () => {
             showToast(errMsg, "error", "dark");
         } finally {
             // ✅ Dono loading false karo
-            setLoading(false);
+            dispatch(setLoading(false));
             dispatch(setLoading(false));
         }
     };

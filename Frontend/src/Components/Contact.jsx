@@ -62,7 +62,18 @@ const Contact = () => {
                                     <div>
                                         <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{item.label}</p>
                                         <h4 className="text-white font-bold mt-1 break-all">{
-                                            item.value == "noorpubsch@gmail.com" ? <a href="mailto:noorpubsch@gmail.com" target='_blank'>{item.value}</a> : <span>{item.value}</span>
+                                            item.value == "noorpubsch@gmail.com" ? <a href="mailto:noorpubsch@gmail.com" target='_blank'>{item.value}</a> :
+                                                item.value == "0303-2021040" ? <a className='hover:text-accent' target='_blank' href={`https://wa.me/+923032021040?text=${encodeURIComponent(`Assalam-u-Alaikum! ✨
+
+Reaching out via the Alumni Website. 🏛️
+
+────────────────────
+🎓 Noor Public School
+Alumni Directory Portal
+────────────────────
+
+`)}`}>{item.value}</a> :
+                                                    <span>{item.value}</span>
                                         }
                                         </h4>
                                         <p className="text-[11px] text-slate-400 mt-1 font-medium italic">{item.desc}</p>
