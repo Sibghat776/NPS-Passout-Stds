@@ -5,6 +5,7 @@ import {
     ArrowUpRight, ArrowDownRight, Activity,
     TrendingUp, Calendar, Bell, Search, Filter
 } from 'lucide-react';
+import Sidebar from '../sideBar';
 
 const Overview = () => {
     const stats = useSelector((state) => state.admin?.stats) || {
@@ -71,7 +72,6 @@ const Overview = () => {
                         System is performing 15% better than last month.
                     </p>
                 </div>
-
                 <div className="flex items-center gap-4">
                     <div className="relative hidden md:block">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
