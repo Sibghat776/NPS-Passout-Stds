@@ -120,11 +120,7 @@ const Form = () => {
             // ✅ 1. Redux mein add karo
             dispatch(addStudent(savedStudent));
             // ✅ 2. LocalStorage mein save karo (profile ke liye)
-<<<<<<< HEAD
-            localStorage.setItem("studentId", JSON.stringify(savedStudent._id));
-=======
             localStorage.setItem("student", JSON.stringify(savedStudent._id));
->>>>>>> 3201c7b006983cb92ea95d196fa35312e55f7385
 
             showToast(res?.data?.message, "success", "light");
             navigate("/profile");
