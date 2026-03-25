@@ -97,6 +97,39 @@ export const getStudentById = async (req, res, next) => {
     }
 };
 
+export const updateStudentById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        if (!req.body || Object.keys(req.body).length === 0) {
+            return next(createError(400, "Please provide data to update"));
+        }
+
+        const existingStudent = await Student.findById(id);
+        if (!existingStudent) {
+            return next(createError(404, "Student not found"));
+        }
+
+        // ✅ Agar new image aayi toh Cloudinary pe upload karo
+        let updateData = { ...req.body };
+        if (req.file) {
+            const result = await uploadToCloudinary(req.file.buffer, "uploads");
+            updateData.profilePic = result.secure_url;
+        }
+
+        const updatedStudent = await Student.findByIdAndUpdate(
+            id,
+            { $set: updateData },
+            { new: true, runValidators: true }
+        );
+
+        res.status(200).json(createSuccess(200, "Student updated successfully", updatedStudent));
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const deleteAllStudents = async (req, res, next) => {
     try {
         await Student.deleteMany({});

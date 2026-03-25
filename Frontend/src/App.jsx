@@ -12,22 +12,29 @@ import Overview from "./Components/Admin Panel/Overview.jsx";
 import AlumniRecords from "./Components/Admin Panel/AlumniRecords.jsx";
 import Contact from "./Components/Contact.jsx";
 import Profile from "./Pages/profile.jsx";
-
+import UpdateProfile from "./Pages/UpdateProfile.jsx";
+import AdminRoutes from "./Private Routes/AdminRoutes.jsx";
 
 function App() {
   return (
     <>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/form" element={<Form />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/community" element={<Community />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/admin" element={<AdminDashboard />} >
-          <Route index element={<Navigate to={"overview"} />} />
-          <Route path="students" element={<StudentList />} />
-          <Route path="overview" element={<Overview />} />
-          <Route path="alumni" element={<AlumniRecords />} />
+        <Route path="/updateProfile" element={<UpdateProfile />} />
+
+        {/* ✅ Admin — pehle guard, phir layout, phir children */}
+        <Route path="/admin" element={<AdminRoutes />}>
+          <Route element={<AdminDashboard />}>
+            <Route index element={<Navigate to="overview" replace />} />
+            <Route path="overview" element={<Overview />} />
+            <Route path="students" element={<StudentList />} />
+            <Route path="alumni" element={<AlumniRecords />} />
+          </Route>
         </Route>
 
         <Route path="*" element={<PageNotFound />} />
@@ -37,4 +44,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

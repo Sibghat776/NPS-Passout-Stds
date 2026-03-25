@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     User, Mail, Phone, Calendar, BookOpen, MapPin,
@@ -7,21 +7,58 @@ import {
 } from 'lucide-react';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
+import axios from 'axios';
+import { baseUrl } from '../utils/baseUrl';
 
 const Profile = () => {
     const navigate = useNavigate();
-    const student = JSON.parse(localStorage.getItem("student"));
+    const [student, setStudent] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleUpdateProfile = () => {
+        navigate("/updateProfile")
+    }
 
     useEffect(() => {
-        if (!student) {
+        // ✅ localStorage se _id lo
+        const studentId = JSON.parse(localStorage.getItem("student"));
+
+        if (!studentId) {
             navigate("/form");
+            return;
         }
-    }, [student, navigate]);
+
+        // ✅ useEffect ke andar fetch karo — render mein nahi
+        const fetchStudent = async () => {
+            setLoading(true);
+            try {
+                const res = await axios.get(`${baseUrl}student/getStudent/${studentId}`);
+                setStudent(res.data.data)   ;
+            } catch (err) {
+                console.error(err);
+                navigate("/form");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStudent();
+    }, []); // ✅ Sirf ek baar chalega
+
+    // Loading state
+    if (loading) return (
+        <div className="flex justify-center items-center min-h-screen">
+            <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-full bg-primary animate-bounce [animation-delay:0ms]"></div>
+                <div className="w-3 h-3 rounded-full bg-primary animate-bounce [animation-delay:150ms]"></div>
+                <div className="w-3 h-3 rounded-full bg-primary animate-bounce [animation-delay:300ms]"></div>
+            </div>
+        </div>
+    );
 
     if (!student) return null;
 
-    // --- Sub-Components (Internal for Single File) ---
-
+    // --- Sub-Components ---
     const InfoCard = ({ title, icon: Icon, children }) => (
         <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden transition-all hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)]">
             <div className="bg-gradient-to-r from-blue-950 to-indigo-900 px-8 py-5 flex items-center gap-3">
@@ -55,14 +92,12 @@ const Profile = () => {
     return (
         <div className="flex flex-col min-h-screen bg-[#0d1529]/90">
             <Navbar />
-
             <main className="flex-grow pt-24 pb-16">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                    {/* Glassmorphic Header Card */}
+                    {/* Header Card */}
                     <div className="relative mb-12 bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(8,_112,_184,_0.05)] border border-white flex flex-col md:flex-row items-center gap-10 overflow-hidden">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full -mr-32 -mt-32 opacity-50 transition-transform hover:scale-110 duration-700"></div>
-
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full -mr-32 -mt-32 opacity-50"></div>
                         <div className="relative">
                             <div className="w-40 h-40 rounded-3xl overflow-hidden border-[6px] border-white shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
                                 <img
@@ -71,11 +106,10 @@ const Profile = () => {
                                     className="w-full h-full object-cover"
                                 />
                             </div>
-                            <div className="absolute -bottom-3 -right-3 bg-green-500 border-4 border-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg" title="Active Student">
+                            <div className="absolute -bottom-3 -right-3 bg-green-500 border-4 border-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
                                 <ShieldCheck className="text-white" size={20} />
                             </div>
                         </div>
-
                         <div className="relative text-center md:text-left flex-grow">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase tracking-widest mb-4">
                                 <span className="relative flex h-2 w-2">
@@ -97,9 +131,8 @@ const Profile = () => {
                                 <span>{student.address}</span>
                             </div>
                         </div>
-
                         <div className="relative flex flex-col gap-3 w-full md:w-auto">
-                            <button className="flex items-center justify-center gap-2 bg-blue-950 text-white px-6 py-4 rounded-2xl font-bold hover:bg-indigo-900 transition-all shadow-lg shadow-indigo-200 group">
+                            <button onClick={handleUpdateProfile} className="flex items-center justify-center gap-2 bg-blue-950 text-white px-6 py-4 rounded-2xl font-bold hover:bg-indigo-900 transition-all shadow-lg shadow-indigo-200 group">
                                 <Edit3 size={18} />
                                 Update Profile
                                 <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -108,55 +141,42 @@ const Profile = () => {
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        {/* Main Info Area */}
                         <div className="lg:col-span-8 space-y-8">
                             <InfoCard title="Primary Records" icon={User}>
-                                <InfoItem icon={User} label="Father's Designation" value={student.fatherName} />
-                                <InfoItem icon={VenusMarsIcon} label="Identity Gender" value={student.gender} />
-                                <InfoItem icon={Mail} label="Official Email" value={student.email} />
-                                <InfoItem icon={Phone} label="Verified Contact" value={student.contactNo} />
+                                <InfoItem icon={User} label="Father's Name" value={student.fatherName} />
+                                <InfoItem icon={VenusMarsIcon} label="Gender" value={student.gender} />
+                                <InfoItem icon={Mail} label="Email" value={student.email} />
+                                <InfoItem icon={Phone} label="Contact" value={student.contactNo} />
                             </InfoCard>
-
                             <InfoCard title="Educational Credentials" icon={GraduationCap}>
-                                <InfoItem icon={Award} label="Prior Certificate" value={student.lastClass} />
-                                <InfoItem icon={BookOpen} label="Enrolled Faculty" value={student.course} />
-                                <InfoItem icon={Calendar} label="Academic Session" value={`${student.batch - 1}-${student.batch}`} />
-                                <div className="p-3 bg-blue-50 rounded-2xl border border-blue-100 flex items-center gap-4">
-                                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm">
-                                        <Award size={20} />
-                                    </div>
-                                    <p className="text-xs font-bold text-blue-900 italic underline decoration-blue-200">Excellent Standing in {student.course}</p>
-                                </div>
+                                <InfoItem icon={Award} label="Last Qualification" value={student.lastClass} />
+                                <InfoItem icon={BookOpen} label="Course" value={student.course} />
+                                <InfoItem icon={Calendar} label="Batch" value={student.batch} />
                             </InfoCard>
                         </div>
 
-                        {/* Sidebar */}
                         <div className="lg:col-span-4 space-y-8">
-                            {/* Professional Status Card */}
-                            <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 text-center relative overflow-hidden group">
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 text-center">
                                 <h3 className="text-[10px] font-black text-indigo-400 uppercase tracking-[3px] mb-6">Career Trajectory</h3>
                                 <div className={`inline-flex items-center gap-2 px-6 py-2 rounded-full text-xs font-black tracking-widest ${student.status === 'FREE' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-amber-50 text-amber-600 border border-amber-100'}`}>
                                     <span className="w-2 h-2 rounded-full bg-current animate-pulse"></span>
                                     {student.status}
                                 </div>
-
                                 {student.jobTitle && (
                                     <div className="mt-8 p-4 bg-gray-50 rounded-2xl flex items-center gap-3 justify-center">
                                         <Briefcase size={18} className="text-indigo-400" />
-                                        <p className="text-sm font-bold text-gray-700 tracking-tight">{student.jobTitle}</p>
+                                        <p className="text-sm font-bold text-gray-700">{student.jobTitle}</p>
                                     </div>
                                 )}
                             </div>
 
-                            {/* Digital ID Card Action */}
                             <div className="bg-indigo-900 rounded-[2rem] p-8 text-white shadow-2xl shadow-indigo-200 relative overflow-hidden">
                                 <div className="absolute bottom-0 right-0 opacity-10 transform translate-x-4 translate-y-4">
                                     <GraduationCap size={160} />
                                 </div>
                                 <h3 className="text-xl font-bold mb-2">Student Digital ID</h3>
-                                <p className="text-indigo-200 text-xs leading-relaxed mb-8 italic">Access your institutional identity card for exams and portal verification.</p>
-                                <button className="w-full bg-white text-indigo-950 py-4 rounded-2xl font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-indigo-50 transition-colors shadow-xl shadow-black/10">
+                                <p className="text-indigo-200 text-xs leading-relaxed mb-8 italic">Access your institutional identity card.</p>
+                                <button className="w-full bg-white text-indigo-950 py-4 rounded-2xl font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-indigo-50 transition-colors">
                                     <Download size={18} />
                                     Export PDF
                                 </button>
@@ -165,7 +185,6 @@ const Profile = () => {
                     </div>
                 </div>
             </main>
-
             <Footer />
         </div>
     );
