@@ -1,7 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight, GraduationCap, Globe, Zap, Sparkles } from 'lucide-react';
+import image1 from "../assets/Hero/Pic (1).jpeg"
+import image2 from "../assets/Hero/Pic (2).jpeg"
+import image3 from "../assets/Hero/Pic (3).jpeg"
+import image4 from "../assets/Hero/Pic (4).jpeg"
+import image5 from "../assets/Hero/Pic (5).jpeg"
+import { Link } from 'react-router-dom';
+
+
 
 const Hero = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [fade, setFade] = useState(true);
+    const studentId = JSON.parse(localStorage.getItem("studentId"))
+
+    let images = [
+        image1,
+        image2,
+        image3,
+        image4,
+        image5
+    ]
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // ✅ Pehle fadeOut
+            setFade(false);
+
+            setTimeout(() => {
+                setCurrentIndex(prev => (prev + 1) % images.length);
+                // ✅ Phir fadeIn
+                setFade(true);
+            }, 500); // 500ms fadeOut ke baad image change
+
+        }, 3000); // har 3 second baad change
+
+        return () => clearInterval(interval); // cleanup
+    }, []);
+
     return (
         <section id="/" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-hero-gradient pb-5 pt-32">
 
@@ -43,16 +79,25 @@ const Hero = () => {
                         {/* Buttons */}
                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
                             <button className="group relative px-8 py-4 bg-primary text-white rounded-2xl font-bold text-lg shadow-2xl transition-all hover:scale-105 active:scale-95 flex items-center overflow-hidden">
-                                <span className="relative text-base z-10 flex items-center">
-                                    Claim Your Profile <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
+                                <span className="relative text-base z-10 flex flex-row items-center">
+                                    {
+                                        !studentId ?
+                                            <Link className='flex items-center justify-center' to={"/form"}>
+                                                Fill Form <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
+                                            </Link>
+                                            :
+                                            <Link className='flex items-center justify-center' to={"/profile"}>
+                                                Claim Your Profile <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
+                                            </Link>
+                                    }
                                 </span>
                                 <div className="absolute inset-0 bg-gradient-to-r from-violet to-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </button>
 
-                            <button className="px-8 py-4 text-base backdrop-blur-lg border-2 text-white hover:bg-white/10 rounded-2xl font-bold transition-all shadow-2xl"
+                            <Link to={"/community"} className="px-8 py-4 text-base backdrop-blur-lg border-2 text-white hover:bg-white/10 rounded-2xl font-bold transition-all shadow-2xl"
                                 style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
                                 Explore Directory
-                            </button>
+                            </Link>
                         </div>
 
                         {/* Live Stats */}
@@ -86,9 +131,13 @@ const Hero = () => {
                         <div className="relative z-20 group">
                             <div className="relative rounded-[40px] overflow-hidden border-4 border-white/10 shadow-2xl rotate-2 group-hover:rotate-0 transition-all duration-700">
                                 <img
-                                    src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                                    src={images[currentIndex]}
                                     alt="Alumni Success"
-                                    className="w-full h-[500px] object-cover scale-110 group-hover:scale-100 transition-transform duration-700"
+                                    className="w-full h-[500px] object-cover scale-110 group-hover:scale-100 transition-all duration-700"
+                                    style={{
+                                        opacity: fade ? 1 : 0,
+                                        transition: "opacity 0.5s ease-in-out"
+                                    }}
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent opacity-60"></div>
                             </div>

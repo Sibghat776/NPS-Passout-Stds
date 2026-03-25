@@ -3,7 +3,8 @@ import {
     Users, ArrowRight, ShieldCheck, GraduationCap,
     History, Target, Zap, Globe, Award, Star
 } from "lucide-react";
-import aboutImage from "../assets/Hero/Pic 2.jpeg";
+import aboutImage from "../assets/Hero/Pic (2).jpeg";
+import { Link } from "react-router-dom"
 
 const About = () => {
     const features = [
@@ -129,9 +130,9 @@ const About = () => {
                             <a className="text-xl font-black text-white tracking-tight italic">Ready to join the inner circle?</a>
                             <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Official Noor Public School Alumni Directory</p>
                         </div>
-                        <button onClick={() => window.location.href = "/form"} className="flex items-center gap-3 bg-white text-darkBase px-8 py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all duration-300">
+                        <Link to={"/form"} className="flex items-center gap-3 bg-white text-darkBase px-8 py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all duration-300">
                             Join Now <ArrowRight size={16} />
-                        </button>
+                        </Link>
                     </div>
                 </div>
 
