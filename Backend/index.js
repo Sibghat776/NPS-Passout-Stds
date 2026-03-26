@@ -7,47 +7,59 @@ import { studentRouter } from "./Routes/studentRoute.js"
 
 dotenv.config()
 
-let app = express()
+const app = express()
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cors({
   origin: true,
   credentials: true,
-}));
+}))
 app.use(helmet())
 
 app.use("/api/student", studentRouter)
 
+// ✅ Error Handler
 app.use((err, req, res, next) => {
-  let errorStatus = err.status || 500
-  let errorMessage = err.message || "Something went Wrong"
-
+  const errorStatus = err.status || 500
+  const errorMessage = err.message || "Something went Wrong"
   res.status(errorStatus).json({
     success: false,
     status: errorStatus,
     message: errorMessage,
-    stack: err.stack
+    stack: process.env.NODE_ENV === "production" ? null : err.stack
   })
 })
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO);
-    console.log("✅ DB connected successfully");
-  } catch (error) {
-    console.error("DB connection error:", error);
-  }
-}
+// ✅ DB Connection — caching (Vercel serverless ke liye zarori)
+let isConnected = false;
 
+const connectDB = async () => {
+  if (isConnected) return; // ✅ Already connected toh dobara connect mat karo
+
+  const MONGO = process.env.MONGO;
+  if (!MONGO) throw new Error("MONGO URI missing in environment variables");
+
+  await mongoose.connect(MONGO); // ✅ Options hatao — Mongoose 7+ mein zarori nahi
+
+  isConnected = true;
+  console.log("✅ MongoDB Connected");
+};
+
+// ✅ Local server
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
-  connectDB().then(() => {
-    app.listen(PORT, () => console.log(`🚀 Server running on ${PORT}`));
-  }).catch(err => {
-    console.error("DB connection failed:", err);
-    process.exit(1);
-  });
+  connectDB()
+    .then(() => {
+      app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+    })
+    .catch(err => {
+      console.error("❌ DB connection failed:", err);
+      process.exit(1);
+    });
 }
 
+// ✅ Vercel ke liye — har request pe DB connect karo
+await connectDB();
 
 export default app;
