@@ -1,65 +1,91 @@
-import express from "express"
-import cors from "cors"
-import dotenv from "dotenv"
-import helmet from "helmet"
-import mongoose from "mongoose"
-import { studentRouter } from "./Routes/studentRoute.js"
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import helmet from "helmet";
+import mongoose from "mongoose";
+import { studentRouter } from "./Routes/studentRoute.js";
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
+const app = express();
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(cors({
-  origin: true,
-  credentials: true,
-}))
-app.use(helmet())
+// ------------------- Middlewares -------------------
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/student", studentRouter)
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  }),
+);
 
-// ✅ Error Handler
+app.use(helmet());
+
+// ------------------- Routes -------------------
+app.use("/api/student", studentRouter);
+
+// Health Route
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Backend Running 🚀",
+  });
+});
+
+// ------------------- Error Handler -------------------
 app.use((err, req, res, next) => {
-  const errorStatus = err.status || 500
-  const errorMessage = err.message || "Something went Wrong"
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "Something went Wrong";
+
   res.status(errorStatus).json({
     success: false,
     status: errorStatus,
     message: errorMessage,
-    stack: process.env.NODE_ENV === "production" ? null : err.stack
-  })
-})
+    stack: process.env.NODE_ENV === "production" ? null : err.stack,
+  });
+});
 
-// ✅ DB Connection — caching (Vercel serverless ke liye zarori)
+// ------------------- DB Connection -------------------
 let isConnected = false;
 
 const connectDB = async () => {
-  if (isConnected) return; // ✅ Already connected toh dobara connect mat karo
+  try {
+    if (isConnected) return;
 
-  const MONGO = process.env.MONGO;
-  if (!MONGO) throw new Error("MONGO URI missing in environment variables");
+    const MONGO = process.env.MONGO;
 
-  await mongoose.connect(MONGO);
+    if (!MONGO) {
+      throw new Error("MONGO URI missing");
+    }
 
-  isConnected = true;
-  console.log("✅ MongoDB Connected");
+    await mongoose.connect(MONGO);
+
+    isConnected = true;
+    console.log("✅ MongoDB Connected");
+  } catch (error) {
+    console.error("❌ MongoDB Error:", error);
+    throw error;
+  }
 };
 
-// ✅ Local server
+// ------------------- Local Server -------------------
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
+
   connectDB()
     .then(() => {
-      app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+      app.listen(PORT, () => {
+        console.log(`🚀 Server running on ${PORT}`);
+      });
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("❌ DB connection failed:", err);
-      process.exit(1);
     });
 }
 
-// ✅ Vercel ke liye — har request pe DB connect karo
-await connectDB();
-
-export default app;
+// ------------------- Vercel -------------------
+export default async function handler(req, res) {
+  await connectDB();
+  return app(req, res);
+}
