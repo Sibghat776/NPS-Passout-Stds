@@ -40,7 +40,7 @@ const connectDB = async () => {
   const MONGO = process.env.MONGO;
   if (!MONGO) throw new Error("MONGO URI missing in environment variables");
 
-  await mongoose.connect(MONGO); // ✅ Options hatao — Mongoose 7+ mein zarori nahi
+  await mongoose.connect(MONGO);
 
   isConnected = true;
   console.log("✅ MongoDB Connected");
